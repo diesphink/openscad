@@ -4,14 +4,14 @@ module duplo_grande(tiles = 12, texto = "Hidden Temple")
 {
 	x = 90;
 	z = (altura_base) + (tiles * altura_tile) + folga + (altura_ranhura);
-	y = 68;
+	y = 60;
 	echo(str("[Z] Altura do box: ", z));
 	echo(str("[Y] Profundidade do box: ", y));
 	difference() {
 		// Base
 		cube([x, y, z]);
 
-		tile_y = 60;
+		tile_y = 55;
 		tile_x = 30;
 
 		// Tile 1
@@ -38,13 +38,13 @@ module duplo_grande(tiles = 12, texto = "Hidden Temple")
 module dice_slot(n_x = 1, n_y = 1) {
 	color([0.5,0.5,0.7]) union() {
 		hull() {
-		cube([tamanho_dado * n_x, tamanho_dado * n_y, tamanho_dado]);
-		translate ([-1, -1, tamanho_dado - 2 ])
-			cube([tamanho_dado * n_x + 2, tamanho_dado * n_y + 2, 2]);
+		cube([tamanho_dado * n_x, tamanho_dado * n_y , tamanho_dado]);
+
 		translate([tamanho_dado * n_x / 2, 0, 0])
-			cylinder(h=15, r1 = 0, r2 = 7);
+			cylinder(h=15, r1 = 0, r2 = 10);
+
 		translate([tamanho_dado * n_x / 2, tamanho_dado * n_y, 0])
-				cylinder(h=15, r1 = 0, r2 = 7);
+				cylinder(h=15, r1 = 0, r2 = 10);
 			}
 		}
 }
