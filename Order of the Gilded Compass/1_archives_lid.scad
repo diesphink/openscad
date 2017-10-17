@@ -1,4 +1,4 @@
-include <common.scad>;
+include <lib/common.scad>;
 
 module lid(tiles = 12, texto = "Hidden Temple")
 {
