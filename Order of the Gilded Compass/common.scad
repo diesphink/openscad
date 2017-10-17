@@ -15,7 +15,7 @@ profundidade_ranhura = 1.5;
 altura_tile = 2;
 
 // Slot de dados
-tamanho_dado = 15;
+tamanho_dado = 14;
 
 module tile(x=1, y=1, altura=1, pegador=false) {
 	color([1,0,0,1]) {
