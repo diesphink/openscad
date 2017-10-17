@@ -1,5 +1,6 @@
-SCADS=$(wildcard *.scad)
-STLS=$(SCADS:%.scad=output/%.stl)
+SCADS = $(wildcard *.scad)
+STLS = $(SCADS:%.scad=output/%.stl)
+OPENSCAD = openscad
 
 all: $(STLS)
 
@@ -7,7 +8,12 @@ all: $(STLS)
 include $(wildcard output/*.deps)
 
 output/%.stl: %.scad
-	openscad -m make -o $@ -d $@.deps $<
+
+# Cria o diretório se não existir
+	if [ ! -d output ]; then mkdir output; fi
+
+# Gera os arqivos stl (e deps)
+	$(OPENSCAD) -m make -o $@ -d $@.deps $<
 
 clean:
-	rm output/*.stl
+	rm -rf output
