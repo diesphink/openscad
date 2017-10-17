@@ -1,7 +1,13 @@
-SRCS=$(wildcard *.scad)
-OBJS=$(SRCS:.scad=.stl)
-all: $(OBJS)
-	echo teste
+SCADS=$(wildcard *.scad)
+STLS=$(SCADS:%.scad=output/%.stl)
 
-%.stl: %.scad
-	openscad -m make -o output/$@ $<
+all: $(STLS)
+
+# Inclui as dependências geradas pelo openscad
+include $(wildcard output/*.deps)
+
+output/%.stl: %.scad
+	openscad -m make -o $@ -d $@.deps $<
+
+clean:
+	rm output/*.stl
