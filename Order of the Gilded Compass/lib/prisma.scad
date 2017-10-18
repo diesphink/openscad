@@ -1,3 +1,6 @@
+// From
+// https://github.com/dannystaple/OpenSCAD-Parts-Library/blob/master/prism.scad
+
 //Draw a prism based on a
 //right angled triangle
 //l - length of prism
