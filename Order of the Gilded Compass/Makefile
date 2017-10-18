@@ -13,8 +13,10 @@ GCODE	  		= \033[1;42;32m
 STL		 		 	= \033[1;44;36m
 NO_COLOR    = \033[m
 
+# Processa a saída para remover textos desnecessários
 PROCESS_OUTPUT = grep -v '=>' | grep -v 'Could not initialize localization.' | sed 's/^/        /'
 
+# Garante que os STLS gerados não serão removidos
 .SECONDARY: $(STLS)
 
 all: $(GCODES)
@@ -37,6 +39,6 @@ stl/%.stl: %.scad
 	@$(OPENSCAD) -m make -o $@ -d $(@:stl/%=.deps/%).deps $< 2>&1 | $(call PROCESS_OUTPUT)
 
 clean:
-	rm -rf output
-	rm -rf .deps
-	rm -rf stl
+	@rm -rf output
+	@rm -rf .deps
+	@rm -rf stl
