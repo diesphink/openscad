@@ -3,7 +3,12 @@ OPENSCAD 					:= openscad
 SLIC3R 						:= ~/opt/slic3r/slic3r
 
 # Perfis do slic3r para a impressão
-SLIC3R_PROFILES		:= abs
+MATERIAL					:= pla
+QUALITY						:= normal
+SLIC3R_PROFILES		:= default $(MATERIAL) $(QUALITY)
+ifneq ($(wildcard ../slic3r_profiles/$(MATERIAL)_$(QUALITY).ini),)
+	SLIC3R_PROFILES	:= $(SLIC3R_PROFILES) $(MATERIAL)_$(QUALITY)
+endif
 _underline				:= _
 _empty						:=
 _space						:= $(_empty) $(_empty)
@@ -12,7 +17,7 @@ GCODE_SUFFIX			:= $(subst $(_space),$(_underline),$(strip $(GCODE_SUFFIX)))
 GCODE_SUFFIX			:= _$(GCODE_SUFFIX)
 
 # Os arquivos relevantes (compilar ou dependências)
-SCADS 						:= $(wildcard 1_archives_lid.scad)
+SCADS 						:= $(wildcard basic.scad)
 STLS 							:= $(SCADS:%.scad=stl/%.stl)
 GCODES 						:= $(SCADS:%.scad=output/%$(GCODE_SUFFIX).gcode)
 PROFILES					:= $(SLIC3R_PROFILES:%=../slic3r_profiles/%.ini)
