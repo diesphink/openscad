@@ -11,10 +11,11 @@ GCODE_SUFFIX			:= $(filter-out default,$(SLIC3R_PROFILES))
 GCODE_SUFFIX			:= $(subst $(_space),$(_underline),$(strip $(GCODE_SUFFIX)))
 GCODE_SUFFIX			:= _$(GCODE_SUFFIX)
 
-# Os arquivos para compilar
-SCADS 						:= $(wildcard *.scad)
+# Os arquivos relevantes (compilar ou dependências)
+SCADS 						:= $(wildcard 1_archives_lid.scad)
 STLS 							:= $(SCADS:%.scad=stl/%.stl)
 GCODES 						:= $(SCADS:%.scad=output/%$(GCODE_SUFFIX).gcode)
+PROFILES					:= $(SLIC3R_PROFILES:%=../slic3r_profiles/%.ini)
 
 # Cores
 BOLD 							:= \033[0;1m
@@ -33,7 +34,7 @@ all: $(GCODES)
 # Inclui as dependências geradas pelo openscad
 include $(wildcard .deps/*.deps)
 
-output/%$(GCODE_SUFFIX).gcode: stl/%.stl
+output/%$(GCODE_SUFFIX).gcode: stl/%.stl $(PROFILES)
 	@# Gera os arqivos stl (e deps)
 	@printf "%b" "$(BOLD)$(GCODE) GCODE $(BOLD) $(@)$(NO_COLOR)\n";
 	@$(SLIC3R) $< \
