@@ -1,1 +1,1 @@
-* Order of the Gilded Compass Token Holder
+# Order of the Gilded Compass Token Holder
