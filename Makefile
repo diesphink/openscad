@@ -7,7 +7,9 @@ SLIC3R_PROFILES		:= abs
 _underline				:= _
 _empty						:=
 _space						:= $(_empty) $(_empty)
-GCODE_SUFFIX			:= _$(subst $(_space),$(_underline),$(strip $(SLIC3R_PROFILES)))
+GCODE_SUFFIX			:= $(filter-out default,$(SLIC3R_PROFILES))
+GCODE_SUFFIX			:= $(subst $(_space),$(_underline),$(strip $(GCODE_SUFFIX)))
+GCODE_SUFFIX			:= _$(GCODE_SUFFIX)
 
 # Os arquivos para compilar
 SCADS 						:= $(wildcard *.scad)
