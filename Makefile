@@ -39,6 +39,7 @@ output/%$(GCODE_SUFFIX).gcode: stl/%.stl $(PROFILES)
 	@printf "%b" "$(BOLD)$(GCODE) GCODE $(BOLD) $(@)$(NO_COLOR)\n";
 	@$(SLIC3R) $< \
 		$(foreach profile,$(SLIC3R_PROFILES), --load ../slic3r_profiles/$(profile).ini) \
+		--print-center 125,105 \
 		--output $@ 2>&1 | $(call PROCESS_OUTPUT)
 
 stl/%.stl: %.scad
