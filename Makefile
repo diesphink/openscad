@@ -5,8 +5,8 @@ SLIC3R 						:= ~/opt/slic3r/slic3r
 # Perfis do slic3r para a impressão
 # Filament: abs, pla
 # Quality: detail, optimal, normal, draft
-# Outros:
-SLIC3R_PROFILES		:= pla draft brim
+# Outros: brim, support_build_plate, support_everywhere
+SLIC3R_PROFILES		:= abs normal
 _underline				:= _
 _empty						:=
 _space						:= $(_empty) $(_empty)
