@@ -3,12 +3,10 @@ OPENSCAD 					:= openscad
 SLIC3R 						:= ~/opt/slic3r/slic3r
 
 # Perfis do slic3r para a impressão
-MATERIAL					:= pla
-QUALITY						:= normal
-SLIC3R_PROFILES		:= default $(MATERIAL) $(QUALITY)
-ifneq ($(wildcard ../slic3r_profiles/$(MATERIAL)_$(QUALITY).ini),)
-	SLIC3R_PROFILES	:= $(SLIC3R_PROFILES) $(MATERIAL)_$(QUALITY)
-endif
+# Filament: abs, pla
+# Quality: detail, optimal, normal, draft
+# Outros:
+SLIC3R_PROFILES		:= pla draft brim
 _underline				:= _
 _empty						:=
 _space						:= $(_empty) $(_empty)
@@ -16,8 +14,13 @@ GCODE_SUFFIX			:= $(filter-out default,$(SLIC3R_PROFILES))
 GCODE_SUFFIX			:= $(subst $(_space),$(_underline),$(strip $(GCODE_SUFFIX)))
 GCODE_SUFFIX			:= _$(GCODE_SUFFIX)
 
+# Adiciona aos profiles o default (primeiro), depois os que foram definidos pelo usuário
+# E por fim, adiciona qualquer combinação de 2 profiles que exista (e.g. pla_draft)
+SLIC3R_PROFILES		:= default $(SLIC3R_PROFILES) \
+									$(foreach p1,$(SLIC3R_PROFILES), $(foreach p2,$(SLIC3R_PROFILES),$(if $(wildcard ../slic3r_profiles/$(p1)_$(p2).ini),$(p1)_$(p2))))
+
 # Os arquivos relevantes (compilar ou dependências)
-SCADS 						:= $(wildcard basic.scad)
+SCADS 						:= $(wildcard *.scad)
 STLS 							:= $(SCADS:%.scad=stl/%.stl)
 GCODES 						:= $(SCADS:%.scad=output/%$(GCODE_SUFFIX).gcode)
 PROFILES					:= $(SLIC3R_PROFILES:%=../slic3r_profiles/%.ini)
@@ -55,6 +58,9 @@ stl/%.stl: %.scad
 	@# Gera os arqivos stl (e deps)
 	@printf "%b" "$(BOLD)$(STL) STL   $(BOLD) $(@)$(NO_COLOR)\n";
 	@$(OPENSCAD) -m make -o $@ -d $(@:stl/%=.deps/%).deps $< 2>&1 | $(call PROCESS_OUTPUT)
+
+%.ini:
+	$(error Profile $@ not found)
 
 clean:
 	@rm -rf output
