@@ -43,6 +43,10 @@ all: $(GCODES)
 include $(wildcard .deps/*.deps)
 
 output/%$(GCODE_SUFFIX).gcode: stl/%.stl $(PROFILES)
+	@# Cria os diretórios se não existirem
+	@if [ ! -d output ]; then mkdir output; fi
+	@if [ ! -d .deps ]; then mkdir .deps; fi
+
 	@# Gera os arqivos stl (e deps)
 	@printf "%b" "$(BOLD)$(GCODE) GCODE $(BOLD) $(@)$(NO_COLOR)\n";
 	@$(SLIC3R) $< \
@@ -52,8 +56,6 @@ output/%$(GCODE_SUFFIX).gcode: stl/%.stl $(PROFILES)
 
 stl/%.stl: %.scad
 	@# Cria os diretórios se não existirem
-	@if [ ! -d output ]; then mkdir output; fi
-	@if [ ! -d .deps ]; then mkdir .deps; fi
 	@if [ ! -d stl ]; then mkdir stl; fi
 	@# Gera os arqivos stl (e deps)
 	@printf "%b" "$(BOLD)$(STL) STL   $(BOLD) $(@)$(NO_COLOR)\n";
