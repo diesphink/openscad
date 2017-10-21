@@ -2,6 +2,9 @@
 OPENSCAD 					:= openscad
 SLIC3R 						:= ~/opt/slic3r/slic3r
 
+# Deploy Server
+DEPLOY_SERVER			:= pi@192.168.0.106
+
 # Perfis do slic3r para a impressão
 # Filament: abs, pla
 # Quality: detail, optimal, normal, draft
@@ -29,6 +32,7 @@ PROFILES					:= $(SLIC3R_PROFILES:%=../slic3r_profiles/%.ini)
 BOLD 							:= \033[0;1m
 GCODE	  					:= \033[1;42;32m
 STL		 		 				:= \033[1;44;36m
+RSYNC			 				:= \033[1;45;35m
 NO_COLOR  			  := \033[m
 
 # Processa a saída para remover textos desnecessários
@@ -60,6 +64,10 @@ stl/%.stl: %.scad
 	@# Gera os arqivos stl (e deps)
 	@printf "%b" "$(BOLD)$(STL) STL   $(BOLD) $(@)$(NO_COLOR)\n";
 	@$(OPENSCAD) -m make -o $@ -d $(@:stl/%=.deps/%).deps $< 2>&1 | $(call PROCESS_OUTPUT)
+
+deploy: all
+	@printf "%b" "$(BOLD)$(RSYNC) RSYNC $(BOLD) $(DEPLOY_DIR) on $(DEPLOY_SERVER)$(NO_COLOR)\n";
+	@rsync -azhe ssh --partial --progress output/*.gcode $(DEPLOY_SERVER):.octoprint/uploads/$(DEPLOY_DIR) | $(call PROCESS_OUTPUT)
 
 %.ini:
 	$(error Profile $@ not found)
