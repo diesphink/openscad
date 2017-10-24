@@ -9,7 +9,7 @@ DEPLOY_SERVER			:= pi@192.168.0.106
 # Filament: abs, pla
 # Quality: detail, optimal, normal, draft
 # Outros: brim, support_build_plate, support_everywhere
-SLIC3R_PROFILES		:= abs normal
+SLIC3R_PROFILES		:= abs normal brim
 _underline				:= _
 _empty						:=
 _space						:= $(_empty) $(_empty)
