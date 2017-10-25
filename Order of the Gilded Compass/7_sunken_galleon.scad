@@ -17,15 +17,15 @@ module duplo_grande(tiles = 12, texto = "Hidden Temple")
 
 		// Tile 1
 		translate([largura_parede, (y - tile_y - folga) / 2, 0])
-		tile_slot(x = tile_x, y = tile_y, pegador_x2 = true, pegador_y1 = true);
+		tile_slot(x = tile_x, y = tile_y, pegador_x2 = true, pegador_y1 = false);
 
 		// Tile 2
 		translate([(x - tile_x - 2)/2, (y - tile_y - folga) / 2, 0])
-		tile_slot(x = tile_x, y = tile_y, pegador_x2 = true, pegador_y1 = true, pegador_y2 = true);
+		tile_slot(x = tile_x, y = tile_y, pegador_x2 = true, pegador_y1 = false, pegador_y2 = false);
 
 		// Tile 3
 		translate([x - largura_parede - tile_x - 2, (y - tile_y - folga) / 2, 0])
-		tile_slot(x = tile_x, y = tile_y, pegador_x2 = true, pegador_y2 = true);
+		tile_slot(x = tile_x, y = tile_y, pegador_x2 = true, pegador_y2 = false);
 
 		// Tampa
 		tampa_x(z = z, y = y);
