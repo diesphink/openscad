@@ -16,16 +16,16 @@ module duplo_grande(tiles = 12, texto = "Hidden Temple")
 		tile_x = 30;
 
 		// Tile 1
-		translate([largura_parede, (y - tile_y - largura_parede - 2/* folga */ ), 0])
-		tile_slot(x = tile_x, y = tile_y, pegador_x2 = true, pegador_y1 = true);
+		translate([largura_parede, (y - tile_y - largura_parede - 5.5/* folga */ ), 0])
+		tile_slot(x = tile_x, y = tile_y, pegador_x2 = true, pegador_y1 = false);
 
 		// Tile 2
-		translate([(x - tile_x - 2)/2, (y - tile_y - largura_parede - 2/* folga */ ), 0])
-		tile_slot(x = tile_x, y = tile_y, pegador_x2 = true, pegador_y1 = true, pegador_y2 = true);
+		translate([(x - tile_x - 2)/2, (y - tile_y - largura_parede - 5.5/* folga */ ), 0])
+		tile_slot(x = tile_x, y = tile_y, pegador_x2 = true, pegador_y1 = false, pegador_y2 = false);
 
 		// Tile 3
-		translate([x - largura_parede - tile_x - 2, (y - tile_y - largura_parede - 2/* folga */ ), 0])
-		tile_slot(x = tile_x, y = tile_y, pegador_x2 = true, pegador_y2 = true);
+		translate([x - largura_parede - tile_x - 2, (y - tile_y - largura_parede - 5.5/* folga */ ), 0])
+		tile_slot(x = tile_x, y = tile_y, pegador_x2 = true, pegador_y2 = false);
 
 		// Tiles sobre tudo
 		translate([(x - 70) / 2, (y - 45) / 2, altura_base + 12 * altura_tile])
