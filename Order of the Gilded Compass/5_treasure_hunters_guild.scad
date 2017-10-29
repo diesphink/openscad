@@ -23,7 +23,7 @@ module duplo_grande(tiles = 12, texto = "Hidden Temple")
 		// Tiles sobre tudo
 		tile_y_sobre = 49;
 		tile_x_sobre = 62;
-		translate([(x - tile_x_sobre - 2)/2, (y - tile_y_sobre - folga) / 2, altura_base + 1 * altura_tile])
+		translate([(x - tile_x_sobre - 2)/2, (y - tile_y_sobre - folga) / 2, altura_base + 18 * altura_tile])
 		tile_slot(x = tile_x_sobre, y = tile_y_sobre, pegador_x2 = false, pegador_y1 = false);
 
 		/*translate([(x - 70) / 2, (y - 45) / 2, altura_base + 12 * altura_tile])
