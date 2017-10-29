@@ -2,7 +2,6 @@ include <lib/common.scad>;
 
 module duplo_grande(tiles = 12, texto = "Hidden Temple")
 {
-	folga = 0.5;
 	x = 100;
 	z = (altura_base) + (tiles * altura_tile) + folga + (altura_ranhura);
 	y = 58;
