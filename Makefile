@@ -8,8 +8,9 @@ DEPLOY_SERVER			:= pi@192.168.0.106
 # Perfis do slic3r para a impressão
 # Filament: abs, pla
 # Quality: detail, optimal, normal, draft
+# Infill: 0, 5, 15, 50, 70
 # Outros: brim, support_build_plate, support_everywhere
-SLIC3R_PROFILES		:= abs normal brim
+SLIC3R_PROFILES		:= abs normal brim 15
 _underline				:= _
 _empty						:=
 _space						:= $(_empty) $(_empty)
@@ -24,8 +25,9 @@ SLIC3R_PROFILES		:= default $(SLIC3R_PROFILES) \
 
 # Os arquivos relevantes (compilar ou dependências)
 SCADS 						:= $(wildcard *.scad)
+ONLY_STLS					:= $(wildcard stl/*.stl)
 STLS 							:= $(SCADS:%.scad=stl/%.stl)
-GCODES 						:= $(SCADS:%.scad=output/%$(GCODE_SUFFIX).gcode)
+GCODES 						:= $(SCADS:%.scad=output/%.gcode) $(ONLY_STLS:stl/%.stl=output/%.gcode)
 PROFILES					:= $(SLIC3R_PROFILES:%=../slic3r_profiles/%.ini)
 
 # Cores
@@ -46,7 +48,7 @@ all: $(GCODES)
 # Inclui as dependências geradas pelo openscad
 include $(wildcard .deps/*.deps)
 
-output/%$(GCODE_SUFFIX).gcode: stl/%.stl $(PROFILES)
+output/%.gcode: stl/%.stl $(PROFILES)
 	@# Cria os diretórios se não existirem
 	@if [ ! -d output ]; then mkdir output; fi
 	@if [ ! -d .deps ]; then mkdir .deps; fi
