@@ -10,7 +10,7 @@ DEPLOY_SERVER			:= pi@192.168.0.106
 # Quality: detail, optimal, normal, draft
 # Infill: 0, 5, 15, 50, 70
 # Outros: brim, support_build_plate, support_everywhere
-SLIC3R_PROFILES		:= abs normal brim 15
+SLIC3R_PROFILES		:= abs normal brim
 _underline				:= _
 _empty						:=
 _space						:= $(_empty) $(_empty)
@@ -48,7 +48,7 @@ all: $(GCODES)
 # Inclui as dependências geradas pelo openscad
 include $(wildcard .deps/*.deps)
 
-output/%.gcode: stl/%.stl $(PROFILES)
+output/%.gcode: stl/%.stl $(PROFILES) Makefile
 	@# Cria os diretórios se não existirem
 	@if [ ! -d output ]; then mkdir output; fi
 	@if [ ! -d .deps ]; then mkdir .deps; fi
