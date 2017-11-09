@@ -55,13 +55,19 @@ def dependencies_for_scad(scad):
                 deps += [line]
     return deps
 
+def slic3r_properties_for_stl(stl):
+    file = os.path.join(os.path.dirname(stl), 'slic3r.properties')
+    if os.path.exists(file):
+        # TODO carregar os profiles desse arquivo tambem
+        return file
+
 def profiles():
-    profiles = profiles_load_if_exists('default')
+    args = profiles_load_if_exists('default')
     for profile in SLIC3R_DEFAULT_PROFILES:
-        profiles += profiles_load_if_exists(profile)
+        args += profiles_load_if_exists(profile)
         for sub_profile in SLIC3R_DEFAULT_PROFILES:
-            profiles += profiles_load_if_exists(profile + '_' + sub_profile)
-    return profiles
+            args += profiles_load_if_exists(profile + '_' + sub_profile)
+    return args
 
 def profiles_load_if_exists(profile):
     profile = os.path.join(SLIC3R_PROFILE_FOLDER, profile + '.ini')
@@ -109,6 +115,7 @@ def task_stl_to_gcode():
     for root, dirs, files in os.walk("."):
         for stl in glob.glob(root + '/*.stl'):
             (pathgcode, gcode) = output_for_stl(stl)
+            slic3r_properties = slic3r_properties_for_stl(stl)
 
             yield {
                 'name': gcode,
