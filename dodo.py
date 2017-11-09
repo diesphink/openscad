@@ -12,7 +12,7 @@ from configobj import ConfigObj
 
 colorama.init()
 
-DOIT_CONFIG = {'verbosity': 2, 'reporter':'executed-only'}
+DOIT_CONFIG = {'verbosity': 2, 'reporter':'executed-only', 'default_tasks': ['scad_to_stl', 'stl_to_gcode']}
 
 OPENSCAD = 'openscad'
 
@@ -21,7 +21,7 @@ SLIC3R_PROFILE_FOLDER = './slic3r_profiles'
 SLIC3R_DEFAULT_PROFILES = ['abs', 'normal', 'brim']
 
 OCTOPI_SERVER = 'pi@192.168.0.106'
-OCTOPI_UPLOAD_FOLDER = '.octoprint/uploads/teste/'
+OCTOPI_UPLOAD_FOLDER = '.octoprint/uploads/'
 
 TAG_STL = Style.BRIGHT + Back.BLUE + Fore.CYAN + "  STL    " + Style.RESET_ALL
 TAG_GCODE = Style.BRIGHT + Back.GREEN + Fore.GREEN + "  GCODE  " + Style.RESET_ALL
@@ -85,9 +85,14 @@ def profile_file_if_exists(profile):
     else:
         return []
 
+def deploy_folder_for(dir):
+    ret = []
+    for part in dir.split(os.sep):
+        if part != 'things' and part != 'files' and part != 'stl':
+            ret += [part]
+    return os.path.join(OCTOPI_UPLOAD_FOLDER, os.sep.join(ret))
 
 def title(task):
-    print(vars(task))
     name = task.name
     if name.endswith('-rsync'):
         tag = TAG_RSYNC
@@ -157,8 +162,9 @@ def task_deploy():
                 'name': gcode + "-rsync",
                 'title': title,
                 'actions': [
-                    ['ssh', OCTOPI_SERVER, 'mkdir -p "' + OCTOPI_UPLOAD_FOLDER + root + '"'],
+                    ['ssh', OCTOPI_SERVER, 'mkdir -p "' + deploy_folder_for(root) + '"'],
                     ['rsync', '-azhe', 'ssh', '--partial', '--progress',
-                    gcode,  OCTOPI_SERVER + ':"' + OCTOPI_UPLOAD_FOLDER + gcode + '"']],
-                'file_dep': [gcode]
+                    gcode,  OCTOPI_SERVER + ':"' + os.path.join(deploy_folder_for(root), os.path.basename(gcode)) + '"']],
+                'task_dep':['scad_to_stl', 'stl_to_gcode']
+                # 'file_dep': [gcode]
             }
