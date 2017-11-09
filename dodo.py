@@ -3,13 +3,13 @@ import glob
 import sys
 import os
 import re
+import colorama
 
+from colorama import Fore, Back, Style
 from subprocess import call
 from doit.tools import create_folder
+from configobj import ConfigObj
 
-
-import colorama
-from colorama import Fore, Back, Style
 colorama.init()
 
 DOIT_CONFIG = {'verbosity': 2, 'reporter':'executed-only'}
@@ -56,27 +56,38 @@ def dependencies_for_scad(scad):
     return deps
 
 def slic3r_properties_for_stl(stl):
-    file = os.path.join(os.path.dirname(stl), 'slic3r.properties')
-    if os.path.exists(file):
-        # TODO carregar os profiles desse arquivo tambem
-        return file
+    path = os.path.dirname(stl)
+    while path != '':
+        file = os.path.join(path, 'slic3r.properties')
+        if os.path.exists(file):
+            return file
+        path = os.path.dirname(path)
 
-def profiles():
-    args = profiles_load_if_exists('default')
-    for profile in SLIC3R_DEFAULT_PROFILES:
-        args += profiles_load_if_exists(profile)
-        for sub_profile in SLIC3R_DEFAULT_PROFILES:
-            args += profiles_load_if_exists(profile + '_' + sub_profile)
-    return args
+def profiles_from_properties(properties):
+    config = ConfigObj(properties)
+    if 'profiles' in config:
+        profiles = config['profiles']
+        return profiles.strip().split(' ')
+    return SLIC3R_DEFAULT_PROFILES
 
-def profiles_load_if_exists(profile):
+def profile_files(profiles):
+    files = profile_file_if_exists('default')
+    for profile in profiles:
+        files += profile_file_if_exists(profile)
+        for sub_profile in profiles:
+            files += profile_file_if_exists(profile + '_' + sub_profile)
+    return files
+
+def profile_file_if_exists(profile):
     profile = os.path.join(SLIC3R_PROFILE_FOLDER, profile + '.ini')
     if os.path.exists(profile):
-        return ['--load', profile]
+        return [profile]
     else:
         return []
 
+
 def title(task):
+    print(vars(task))
     name = task.name
     if name.endswith('-rsync'):
         tag = TAG_RSYNC
@@ -115,15 +126,24 @@ def task_stl_to_gcode():
     for root, dirs, files in os.walk("."):
         for stl in glob.glob(root + '/*.stl'):
             (pathgcode, gcode) = output_for_stl(stl)
+
             slic3r_properties = slic3r_properties_for_stl(stl)
+            if slic3r_properties:
+                profiles = profile_files(profiles_from_properties(slic3r_properties)) + [slic3r_properties]
+            else:
+                profiles = profile_files(SLIC3R_DEFAULT_PROFILES)
+
+            profiles_args = []
+            for profile in profiles:
+                profiles_args += ['--load', profile]
 
             yield {
                 'name': gcode,
                 'title': title,
                 'actions': [
                     (create_folder, [pathgcode]),
-                    [SLIC3R, stl, '--print-center', '125,105', '--output', gcode] + profiles()],
-                'file_dep': [stl],
+                    [SLIC3R, stl, '--print-center', '125,105', '--output', gcode] + profiles_args],
+                'file_dep': [stl] + profiles,
                 'targets': [gcode]
             }
 
