@@ -89,7 +89,7 @@ def deploy_folder_for(dir):
     ret = []
     for part in dir.split(os.sep):
         if part != 'things' and part != 'files' and part != 'stl':
-            ret += [part]
+            ret += [part.replace(' ', '_')]
     return os.path.join(OCTOPI_UPLOAD_FOLDER, os.sep.join(ret))
 
 def title(task):
@@ -165,6 +165,6 @@ def task_deploy():
                     ['ssh', OCTOPI_SERVER, 'mkdir -p "' + deploy_folder_for(root) + '"'],
                     ['rsync', '-azhe', 'ssh', '--partial', '--progress',
                     gcode,  OCTOPI_SERVER + ':"' + os.path.join(deploy_folder_for(root), os.path.basename(gcode)) + '"']],
-                'task_dep':['scad_to_stl', 'stl_to_gcode']
-                # 'file_dep': [gcode]
+                'task_dep':['scad_to_stl', 'stl_to_gcode'],
+                'file_dep': [gcode]
             }
