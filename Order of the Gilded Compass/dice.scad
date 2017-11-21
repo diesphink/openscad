@@ -1,4 +1,5 @@
 include <lib/common.scad>;
+include <lib/hexgrid.scad>;
 
 die = 14.5;
 parede = 1;
@@ -35,25 +36,36 @@ module lid() {
 }
 
 module hole() {
-  rotate([0,90,0])
-    cylinder(100, 5, 5, false);
+    cube([4 * die + 7 * parede, die * 2 + parede, die - 3]);
 }
 
-difference() {
-  base();
-  union() {
-    lid();
+union() {
+  difference() {
+    base();
+    union() {
+      lid();
 
-    translate([parede, parede * 3, parede])
-    for (dx = [0:3])
-      for (dy = [0:1])
-        translate([dx * (die + parede), dy * (die + parede), 0])
-          die();
+      translate([parede, parede * 3, parede])
+      for (dx = [0:3])
+        for (dy = [0:1])
+          translate([dx * (die + parede), dy * (die + parede), 0])
+            die();
 
-    translate([parede, parede * 3, 4])
-      inner();
+      translate([parede, parede * 3, 4])
+        inner();
 
-    translate([-0.01, (die * 2 + parede * 7) / 2, (parede + die + altura_ranhura) / 2])
-      hole();
+      translate([-0.01, parede * 3, (parede + die) / 2 ])
+        hole();
+    }
   }
+
+  /*intersection() {
+    translate([-0.1, parede, parede])
+      cube([2.01, die * 2 + parede * 5, die - 1]);
+    translate([0, parede * 3 + (die * 2 + parede)/2, 1.8 + parede + (die - 6)/2]) {
+      translate([0.5,0,0])
+        rotate([0,90,0])
+          hexagonal_grid([die + 8, die * 2 + parede + 2, 0.97], 5, 1 );
+    }
+  }*/
 }
