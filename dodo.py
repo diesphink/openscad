@@ -18,7 +18,7 @@ OPENSCAD = 'openscad'
 
 SLIC3R = '/home/sphink/opt/slic3r/slic3r'
 SLIC3R_PROFILE_FOLDER = './slic3r_profiles'
-SLIC3R_DEFAULT_PROFILES = ['abs', 'normal', 'brim']
+SLIC3R_DEFAULT_PROFILES = ['pla', 'normal']
 
 OCTOPI_SERVER = 'pi@192.168.0.106'
 OCTOPI_UPLOAD_FOLDER = '.octoprint/uploads/'
