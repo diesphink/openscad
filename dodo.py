@@ -20,7 +20,7 @@ SLIC3R = '/home/sphink/opt/slic3r/slic3r'
 SLIC3R_PROFILE_FOLDER = './slic3r_profiles'
 SLIC3R_DEFAULT_PROFILES = ['pla', 'normal']
 
-OCTOPI_SERVER = 'pi@192.168.0.106'
+OCTOPI_SERVER = 'pi@192.168.0.6'
 OCTOPI_UPLOAD_FOLDER = '.octoprint/uploads/'
 
 TAG_STL = Style.BRIGHT + Back.BLUE + Fore.CYAN + "  STL    " + Style.RESET_ALL
@@ -115,11 +115,13 @@ def task_scad_to_stl():
             continue
         for scad in glob.glob(root + '/*.scad'):
             (pathstl, stl) = output_for_scad(scad)
+            pathdeps = os.path.dirname(depfile_for_scad(scad))
             yield {
                 'name': stl,
                 'title': title,
                 'actions': [
                     (create_folder, [pathstl]),
+                    (create_folder, [pathdeps]),
                     [OPENSCAD, "-m", "make", "-o", stl, "-d", depfile_for_scad(scad), scad]],
                 'file_dep': dependencies_for_scad(scad),
                 'targets': [stl]
