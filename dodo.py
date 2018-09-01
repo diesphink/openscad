@@ -149,6 +149,7 @@ def task_jscad_to_stl():
                 'actions': [
                     (create_folder, [pathstl]),
                     [OPENJSCAD, jscad, "-o", stl]],
+                'file_dep': [jscad],
                 'targets': [stl]
             }
 
