@@ -1,6 +1,4 @@
-use <../../libs/plib/support_box.scad>
 use <../../libs/plib/hinge.scad>
-use <logo.scad>
 altura_caixa = 72;
 
 x = 0;
