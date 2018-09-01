@@ -193,6 +193,6 @@ def task_deploy():
                     ['ssh', OCTOPI_SERVER, 'mkdir -p "' + deploy_folder_for(root) + '"'],
                     ['rsync', '-azhe', 'ssh', '--partial', '--progress',
                     gcode,  OCTOPI_SERVER + ':"' + os.path.join(deploy_folder_for(root), os.path.basename(gcode)) + '"']],
-                'task_dep':['scad_to_stl', 'stl_to_gcode'],
+                'task_dep':['scad_to_stl', 'jscad_to_stl', 'stl_to_gcode'],
                 'file_dep': [gcode]
             }
