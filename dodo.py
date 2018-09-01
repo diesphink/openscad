@@ -12,9 +12,10 @@ from configobj import ConfigObj
 
 colorama.init()
 
-DOIT_CONFIG = {'verbosity': 2, 'reporter':'executed-only', 'default_tasks': ['scad_to_stl', 'stl_to_gcode']}
+DOIT_CONFIG = {'verbosity': 2, 'reporter':'executed-only', 'default_tasks': ['scad_to_stl', 'jscad_to_stl', 'stl_to_gcode']}
 
 OPENSCAD = 'openscad'
+OPENJSCAD = 'openjscad'
 
 SLIC3R = '/home/sphink/opt/slic3r/slic3r'
 SLIC3R_PROFILE_FOLDER = './slic3r_profiles'
@@ -31,6 +32,12 @@ TAG_RSYNC = Style.BRIGHT + Back.MAGENTA + Fore.MAGENTA + "  RSYNC  " + Style.RES
 def output_for_scad(scad):
     dir = os.path.join(os.path.dirname(scad), 'stl')
     file = os.path.splitext(os.path.basename(scad))[0] + '.stl'
+    file = os.path.join(dir, file)
+    return (dir, file)
+
+def output_for_jscad(jscad):
+    dir = os.path.join(os.path.dirname(jscad), 'stl')
+    file = os.path.splitext(os.path.basename(jscad))[0] + '.stl'
     file = os.path.join(dir, file)
     return (dir, file)
 
@@ -124,6 +131,24 @@ def task_scad_to_stl():
                     (create_folder, [pathdeps]),
                     [OPENSCAD, "-m", "make", "-o", stl, "-d", depfile_for_scad(scad), scad]],
                 'file_dep': dependencies_for_scad(scad),
+                'targets': [stl]
+            }
+
+def task_jscad_to_stl():
+    """Generate STLs"""
+
+    for root, dirs, files in os.walk("."):
+        if root.endswith('lib'):
+            continue
+        for jscad in glob.glob(root + '/*.jscad'):
+            (pathstl, stl) = output_for_jscad(jscad)
+            # pathdeps = os.path.dirname(depfile_for_jscad(jscad))
+            yield {
+                'name': stl,
+                'title': title,
+                'actions': [
+                    (create_folder, [pathstl]),
+                    [OPENJSCAD, jscad, "-o", stl]],
                 'targets': [stl]
             }
 
