@@ -93,7 +93,6 @@ function plugue() {
     center:[1, 0, 0]
   }).translate([0, plug.y/2 - parede, 0])
 
-  shell = shell.setColor([1,0,0])
   shell = shell.subtract(hollow)
   shell = shell.union(wall)
   shell = shell.translate([plug.x/2, plug.y/2, 0])

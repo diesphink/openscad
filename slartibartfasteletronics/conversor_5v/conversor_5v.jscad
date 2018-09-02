@@ -55,11 +55,10 @@ function cable_guide() {
   hollow = hollow.translate([parede, 0, base_z])
 
   shell = shell.subtract(hollow)
-  shell = shell.setColor([0.1, 0.4, 0.6])
 
   middle_cylinder = cylinder({r: 3, h: conversor['z']}).subtract(cylinder({r: 2, h:conversor['z']}))
 
-  middle_cylinder = middle_cylinder.translate([cable['x_ini']/2, 7, 0]).setColor([0.3, 0.7, 0.8])
+  middle_cylinder = middle_cylinder.translate([cable['x_ini']/2, 7, 0])
   shell = shell.union(middle_cylinder)
 
   return shell.translate([
