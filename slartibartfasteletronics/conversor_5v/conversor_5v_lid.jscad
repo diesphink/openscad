@@ -49,7 +49,7 @@ function cable_guide_lid() {
     translate([(cable['x_ini'] - cable['x_fim'])/2 - parede/2 + folga, cable['y'], 0], square(cable['x_fim'] - parede - folga * 2)))
   )
 
-  prot = prot.translate([parede + folga, 0, 0]).setColor([1,0,0])
+  prot = prot.translate([parede + folga, 0, 0])
 
   outer = outer.union(prot)
   // outer = outer.setColor([0.1, 0.4, 0.6])
@@ -57,8 +57,8 @@ function cable_guide_lid() {
   middle_cylinder_hollow = cylinder({r: 4, h: conversor['z']})//.subtract(cylinder({r: 2, h:conversor['z']}))
   middle_cylinder = cylinder({r: 2 - folga, h: protusion * 2})
 
-  middle_cylinder_hollow = middle_cylinder_hollow.translate([cable['x_ini']/2, 7, lid_height]).setColor([0.3, 0.7, 0.8])
-  middle_cylinder = middle_cylinder.translate([cable['x_ini']/2, 7, lid_height]).setColor([0.3, 0.7, 0.8])
+  middle_cylinder_hollow = middle_cylinder_hollow.translate([cable['x_ini']/2, 7, lid_height])
+  middle_cylinder = middle_cylinder.translate([cable['x_ini']/2, 7, lid_height])
   outer = outer.subtract(middle_cylinder_hollow).union(middle_cylinder)
 
   return outer
