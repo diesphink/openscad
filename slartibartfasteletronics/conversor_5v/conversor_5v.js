@@ -1,5 +1,5 @@
 // Conversor 5V é composto de uma parte principal, uma saída para cabos e uma saída para usb
-conversor_5v = (function() {
+var conversor_5v = (function() {
   dim = {
     principal: {
       x: 51.5,
@@ -28,7 +28,8 @@ conversor_5v = (function() {
   }
 
   function tampa() {
-    return tampa_cabos().union(tampa_cabos_extra())
+    return tampa_cabos()
+      .union(tampa_cabos_extra())
   }
 
   function principal() {
@@ -119,9 +120,8 @@ conversor_5v = (function() {
       prot = prot.translate([dim.parede + dim.folga, 0, 0])
 
       outer = outer.union(prot)
-      // outer = outer.setColor([0.1, 0.4, 0.6])
 
-      middle_cylinder_hollow = cylinder({r: 4, h: dim.principal.z})//.subtract(cylinder({r: 2, h:conversor['z']}))
+      middle_cylinder_hollow = cylinder({r: 4, h: dim.principal.z})
       middle_cylinder = cylinder({r: 2 - dim.folga, h: dim.tampa.protusao * 2})
 
       middle_cylinder_hollow = middle_cylinder_hollow.translate([dim.cabos.x0/2, 7, dim.tampa.altura])
