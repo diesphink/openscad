@@ -62,6 +62,18 @@ def dependencies_for_scad(scad):
                 deps += [line]
     return deps
 
+def dependencies_for_jscad(jscad):
+    path = os.path.dirname(jscad)
+    deps = [jscad]
+    pattern = re.compile("include\(['\"](.*)['\"]\)")
+
+    for line in open(jscad):
+        for match in re.finditer(pattern, line):
+            file = os.path.join(path, match.groups()[0])
+            deps += [file]
+
+    return deps
+
 def slic3r_properties_for_stl(stl):
     path = os.path.dirname(stl)
     while path != '':
@@ -149,7 +161,7 @@ def task_jscad_to_stl():
                 'actions': [
                     (create_folder, [pathstl]),
                     [OPENJSCAD, jscad, "-o", stl]],
-                'file_dep': [jscad],
+                'file_dep': dependencies_for_jscad(jscad),
                 'targets': [stl]
             }
 
