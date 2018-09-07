@@ -12,7 +12,7 @@ conversor_5v = (function() {
     cabos: {
       x0: 30,
       x1: 10,
-      y: 25
+      y: 15
     },
     tampa: {
       altura: 5,
@@ -25,11 +25,13 @@ conversor_5v = (function() {
       .subtract(usb_hollow())
       .subtract(cabos_hollow())
       .union(cabos())
+      // .intersect(cube([40, 20, 80]).translate([20, 30, 0]))
   }
 
   function tampa() {
     return tampa_cabos()
       .union(tampa_cabos_extra())
+      // .intersect(cube([40, 10, 80]).translate([0, 2, 0]))
   }
 
   function principal() {
@@ -82,9 +84,19 @@ conversor_5v = (function() {
 
     shell = shell.subtract(hollow)
 
-    middle_cylinder = cylinder({r: 3, h: dim.principal.z}).subtract(cylinder({r: 2, h:dim.principal.z}))
+    middle_cylinder = cylinder({r: 5, h: dim.principal.z})
+    .setColor([0, 1, 0])
+    .subtract(cylinder({r: 1.6, h:dim.principal.z}))
+    .subtract(cube({
+      size:[6, 6, 2.5],
+      center: [1, 1, 0],
+      radius: [0.5, 0.5, 0]})
+      .setColor([1, 0, 0])
+      .translate([0, 0, dim.principal.z - 2.4]))
+
 
     middle_cylinder = middle_cylinder.translate([dim.cabos.x0/2, 7, 0])
+
 
     shell = shell.union(middle_cylinder)
 
@@ -121,12 +133,14 @@ conversor_5v = (function() {
 
       outer = outer.union(prot)
 
-      middle_cylinder_hollow = cylinder({r: 4, h: dim.principal.z})
-      middle_cylinder = cylinder({r: 2 - dim.folga, h: dim.tampa.protusao * 2})
+      middle_cylinder_hollow = cylinder({r: 1.6, h: dim.principal.z})
+      .union(cylinder({r: 3, h: 3}))
+      .union(cylinder({r: 5.5, h: dim.tampa.protusao * 2}).translate([0, 0, dim.tampa.altura - dim.folga]))
+      // middle_cylinder = cylinder({r: 2 - dim.folga, h: dim.tampa.protusao * 2})
 
-      middle_cylinder_hollow = middle_cylinder_hollow.translate([dim.cabos.x0/2, 7, dim.tampa.altura])
-      middle_cylinder = middle_cylinder.translate([dim.cabos.x0/2, 7, dim.tampa.altura])
-      outer = outer.subtract(middle_cylinder_hollow).union(middle_cylinder)
+      middle_cylinder_hollow = middle_cylinder_hollow.translate([dim.cabos.x0/2, 7, 0])
+      // middle_cylinder = middle_cylinder.translate([dim.cabos.x0/2, 7, dim.tampa.altura])
+      outer = outer.subtract(middle_cylinder_hollow)//.union(middle_cylinder)
 
       return outer
     }
@@ -144,7 +158,7 @@ conversor_5v = (function() {
   return {base, tampa, dim}
 
 })();
-//
-// function main() {
-//   return conversor_5v.base()
-// }
+
+function main() {
+  return conversor_5v.tampa()
+}
