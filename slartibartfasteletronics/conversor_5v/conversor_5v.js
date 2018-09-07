@@ -85,20 +85,20 @@ conversor_5v = (function() {
     shell = shell.subtract(hollow)
 
     middle_cylinder = cylinder({r: 5, h: dim.principal.z})
-    .setColor([0, 1, 0])
-    .subtract(cylinder({r: 1.6, h:dim.principal.z}))
-    .subtract(cube({
-      size:[6, 6, 2.5],
+    .setColor([1, 0, 0])
+
+    middle_cylinder_hollow = cylinder({r: 1.6, h:dim.principal.z + dim.folga * 2})
+    .union(cube({
+      size:[6, 6, 6],
       center: [1, 1, 0],
       radius: [0.5, 0.5, 0]})
-      .setColor([1, 0, 0])
-      .translate([0, 0, dim.principal.z - 2.4]))
-
+      .setColor([1, 0, 0]))
 
     middle_cylinder = middle_cylinder.translate([dim.cabos.x0/2, 7, 0])
+    middle_cylinder_hollow = middle_cylinder_hollow.translate([dim.cabos.x0/2, 7, -dim.folga])
 
 
-    shell = shell.union(middle_cylinder)
+    shell = shell.union(middle_cylinder).subtract(middle_cylinder_hollow)
 
     return shell.translate([
       (dim.principal.x + dim.parede + dim.folga) - dim.cabos.x0,
@@ -160,5 +160,5 @@ conversor_5v = (function() {
 })();
 
 function main() {
-  return conversor_5v.tampa()
+  return conversor_5v.base()
 }
