@@ -1,5 +1,5 @@
 // Conversor 5V é composto de uma parte principal, uma saída para cabos e uma saída para usb
-var conversor_5v = (function() {
+conversor_5v = (function() {
   dim = {
     principal: {
       x: 51.5,
@@ -144,3 +144,7 @@ var conversor_5v = (function() {
   return {base, tampa, dim}
 
 })();
+//
+// function main() {
+//   return conversor_5v.base()
+// }
