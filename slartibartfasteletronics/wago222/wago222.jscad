@@ -7,9 +7,9 @@
 // date: Sat Sep 08 2018 15:16:34 GMT-0300 (-03)
 // source: 5er-2Parallel.stl
 // ===========================
-  function main() { return union(
-// objects: 1
-// object #undefined: triangles: 1280
+wago222 = (function() {
+
+  function base() { return union(
 polyhedron({ points: [
   [-28.23611068725586,61.25384521484375,5.513021469116211],
   [-25.608108520507812,34.04852294921875,11.775532722473145],
@@ -5133,3 +5133,9 @@ polyhedron({ points: [
   [3834,3835,3836],
   [3837,3838,3839]] })
 ); }
+  return {base}
+})()
+
+function main() {
+  return wago222.base()
+}
