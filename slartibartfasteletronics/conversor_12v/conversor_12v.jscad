@@ -11,7 +11,7 @@ var conversor_12v = (function() {
   parede = 1
 
   function mainshell() {
-    shell = cube({
+    var shell = cube({
       size:[
         conversor.x + parede * 2 + folga * 2,
         conversor.y + parede * 2 + folga * 2,
@@ -20,7 +20,7 @@ var conversor_12v = (function() {
       center:[1, 1, 0],
     radius: [1,1,0]})
 
-    hollow = cube({
+    var hollow = cube({
       size:[
         conversor.x + folga * 2,
         conversor.y + folga * 2,
@@ -54,9 +54,11 @@ var conversor_12v = (function() {
     cable_holder = cube({size: [cable.x, cable.y, cable.z]})
     slits = cube({size:[slit.x + folga, slit.y + folga, slit.z + folga]})
     slits = slits.translate([(cable.x - slit.x)/2 , (cable.y - slit.y)/2, cable.z - slit.z])
-    cable_holder = cable_holder.subtract(slits)
+    cable_holder = cable_holder.subtract(slits).setColor([0,0,1])
+      .rotateZ(270)
+      .translate([0, conversor.y + folga + parede + cable.x, 0])
 
-    return cable_holder.translate([-folga -cable.x, conversor.y + folga + parede - cable.y , 0])
+    return cable_holder//.translate([-folga -cable.x, conversor.y + folga + parede - cable.y , 0])
   }
 
   function cable_holder_hollow() {
@@ -64,17 +66,18 @@ var conversor_12v = (function() {
     altura = slit.z - (slit.z - largura)/2
 
     return cube({
-      size: [cable.x * 3, largura + folga, altura],
+      size: [largura + folga, cable.x * 3, altura],
       center: [1,1,0]
-    }).translate([0, conversor.y + folga + parede - (cable.y/2), cable.z - altura])
+    }).translate([cable.y / 2, conversor.y + folga + parede, cable.z - altura])
   }
 
   function plug_hollow() {
-    return cube([plug.x + 2 * folga, parede * 3, conversor.z]).translate([conversor.x - plug.pos_x - plug.x, conversor.y, parede])
+    return cube([plug.x + 2 * folga, parede * 3, conversor.z])
+    .translate([conversor.x - plug.pos_x - plug.x, conversor.y, parede])
   }
 
   function plugue() {
-    shell = cube({
+    var shell = cube({
       size:[plug.x + 4 * parede + 2 * folga, plug.y, plug.z + plug.pos_z ],
       center:[1, 1, 0]
     })
