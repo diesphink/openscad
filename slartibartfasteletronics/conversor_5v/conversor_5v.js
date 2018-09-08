@@ -1,6 +1,6 @@
 // Conversor 5V é composto de uma parte principal, uma saída para cabos e uma saída para usb
 conversor_5v = (function() {
-  dim = {
+  var dim = {
     principal: {
       x: 51.5,
       y: 34,
@@ -38,7 +38,7 @@ conversor_5v = (function() {
     x = dim.principal.x + dim.folga * 2 + dim.parede * 2;
     y = dim.principal.y + dim.folga * 2 + dim.parede * 2;
     z = dim.principal.z
-    shell = cube({
+    var shell = cube({
         center: [1, 1, 0],
         size:[x, y, z],
         radius: [1, 1, 0],
@@ -63,12 +63,12 @@ conversor_5v = (function() {
   }
 
   function cabos() {
-    shell = linear_extrude({ height: dim.principal.z},
+    var shell = linear_extrude({ height: dim.principal.z},
       hull(square([dim.cabos.x0, 5]),
       translate([(dim.cabos.x0 - dim.cabos.x1)/2, dim.cabos.y, 0], square(dim.cabos.x1)))
     )
 
-    hollow = linear_extrude({ height: dim.principal.z},
+    var hollow = linear_extrude({ height: dim.principal.z},
       hull(square([dim.cabos.x0 - dim.parede * 2, 5]),
       translate([(dim.cabos.x0 - dim.cabos.x1)/2 - dim.parede/2, dim.cabos.y, 0], square(dim.cabos.x1 - dim.parede)))
     )

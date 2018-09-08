@@ -1,6 +1,6 @@
 relay_4ch = (function() {
 
-  dim = {
+  var dim = {
     x: 76,
     y: 56,
     z: 15,
@@ -13,7 +13,7 @@ relay_4ch = (function() {
   }
 
   function shell() {
-    shell = cube({
+    var shell = cube({
       size: [
         dim.x + (dim.parede + dim.folga) * 2,
         dim.y + (dim.parede + dim.folga) * 2,
@@ -123,5 +123,5 @@ relay_4ch = (function() {
     .subtract(screw2)
   }
 
-  return {base, tampa}
+  return {base, tampa, dim}
 })()

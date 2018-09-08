@@ -1,5 +1,5 @@
 led_driver = (function() {
-  dim = {
+  var dim = {
     x: 89,
     y: 38,
     z: 5,
