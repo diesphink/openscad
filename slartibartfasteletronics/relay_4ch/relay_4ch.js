@@ -1,4 +1,4 @@
-var relay_4ch = (function() {
+relay_4ch = (function() {
 
   dim = {
     x: 76,
@@ -125,7 +125,3 @@ var relay_4ch = (function() {
 
   return {base, tampa}
 })()
-
-function main() {
-  return relay_4ch.base()//.union(relay_4ch.tampa().setColor([0, 0, 1, 0.4]));
-}
