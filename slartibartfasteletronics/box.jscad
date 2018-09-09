@@ -3,11 +3,12 @@ include('conversor_12v/conversor_12v.jscad')
 include('led_driver/led_driver.jscad')
 include('relay_4ch/relay_4ch.js')
 include('wago222/wago222.jscad')
+include('powerplug/powerplug.jscad')
 
 var dim = {
   x: 200,
   y: 120,
-  z: 10,
+  z: 20,
   folga: 0.2,
   parede: 1.2
 }
@@ -75,6 +76,10 @@ main = function() {
       -(dim.y - led_driver.dim.y)/2 + 1.1,
       dim.parede])
 
+    var pptranslate = [-dim.x/2 - dim.parede - dim.folga, -20, 0]
+    var pp = powerplug.base().translate(pptranslate).setColor([0.6, 0.2, 0.6])
+    var pph = powerplug.hollow().translate(pptranslate).setColor([0.6, 0.2, 0.6])
+
 
   return shell().setColor([0.6, 0.6, 0.6])
   .union(c5v)
@@ -82,4 +87,7 @@ main = function() {
   .union(r4c)
   .union(c12v)
   .union(ld)
+  .union(pp)
+  .subtract(pph)
+
 }

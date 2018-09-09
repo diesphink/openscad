@@ -36,21 +36,19 @@ powerplug = (function() {
       center: [0, 1, 0]
     })
       .translate([0, 0, dim.altura])
-    return hollow
-  }
 
-  function slit() {
     var slit = cube({
       size: [dim.slit.x + dim.folga, dim.slit.y + dim.folga, dim.slit.z + dim.altura],
       center: [0, 1, 0]
     })
       .translate([dim.slit.gap_x, 0, dim.altura - dim.slit.gap_z])
-    return slit
+
+    return hollow.union(slit)
   }
 
-  return {base, dim, hollow, slit}
+  return {base, dim, hollow}
 })()
 
 function main() {
-  return powerplug.base().subtract(powerplug.hollow()).subtract(powerplug.slit());
+  return powerplug.base().subtract(powerplug.hollow());
 }

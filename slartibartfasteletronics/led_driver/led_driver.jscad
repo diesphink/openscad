@@ -2,7 +2,7 @@ led_driver = (function() {
   var dim = {
     x: 89,
     y: 38,
-    z: 5,
+    z: 10,
     folga: 0.2,
     parede: 1.2,
     altura_cabos: 2,
