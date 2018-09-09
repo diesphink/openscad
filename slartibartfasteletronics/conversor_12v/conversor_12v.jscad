@@ -2,7 +2,7 @@ conversor_12v = (function() {
   conversor = {}
   conversor.x = 52
   conversor.y = 35
-  conversor.z = 13
+  conversor.z = 15
 
   // Folga entre pcb e shell
   folga = .2
@@ -35,7 +35,7 @@ conversor_12v = (function() {
   cable = {}
   cable.x = 6
   cable.y = 12
-  cable.z = 13
+  cable.z = 15
 
   folga_extra_slit = .2
   slit = {}
@@ -46,7 +46,7 @@ conversor_12v = (function() {
   plug = {}
   plug.x = 10
   plug.y = 8 + parede
-  plug.z = 6
+  plug.z = 8
   plug.pos_x = 7
   plug.pos_z = 7
 
