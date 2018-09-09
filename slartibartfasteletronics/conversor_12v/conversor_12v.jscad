@@ -1,4 +1,4 @@
-var conversor_12v = (function() {
+conversor_12v = (function() {
   conversor = {}
   conversor.x = 52
   conversor.y = 35
