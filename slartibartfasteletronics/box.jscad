@@ -40,24 +40,33 @@ main = function() {
   var c5v = conversor_5v.base()
   .rotateZ(180)
   .translate([-47.6, 59.1, 0])
+  .setColor([0.6, 0.2, 0.2])
 
   var w2 = wago222.base()
-    .setColor([0, 1, 0])
+    .setColor([0.2, 0.6, 0.2])
     .translate([0, -62.4, 0])
     .rotateX(270)
     .translate([-30, -60.25, 0])
 
   var r4c = relay_4ch.base()
-    .setColor([0, 0, 1])
     .rotateZ(180)
+    .union(cube({
+      size: [
+        relay_4ch.dim.x + (relay_4ch.dim.parede + relay_4ch.dim.folga) * 2,
+        6,
+        relay_4ch.dim.z],
+      center: [1, 0, 0]
+    }).translate([0, relay_4ch.dim.y/2 + dim.folga * 2, 0]))
     .translate([
       7,//-dim.x/2 + relay_4ch.dim.y/2 + dim.parede + dim.folga - 0.2,
-      dim.y/2 - relay_4ch.dim.y/2 - dim.parede - dim.folga + 0.2,
+      dim.y/2 - relay_4ch.dim.y/2 - dim.parede - dim.folga + 0.2 - 5,
       0])
+    .setColor([0.2, 0.2, 0.6])
 
   var c12v = conversor_12v.base()
     .rotateZ(180)
     .translate([99.1, 59.1, 0])
+    .setColor([0.2, 0.4, 0.6])
 
   var ld = led_driver.base()
     .setColor([0.4, 0.9, 0.7])
@@ -67,7 +76,7 @@ main = function() {
       dim.parede])
 
 
-  return shell().setColor([0.4, 0.4, 0.4, 0.7])
+  return shell().setColor([0.6, 0.6, 0.6])
   .union(c5v)
   .union(w2)
   .union(r4c)
