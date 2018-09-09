@@ -4,11 +4,11 @@ conversor_5v = (function() {
     principal: {
       x: 51.5,
       y: 34,
-      z: 10
+      z: 25
     },
     folga: .2,
     parede: 1,
-    altura_saidas: 4,
+    altura_saidas: 19,
     cabos: {
       x0: 30,
       x1: 10,
@@ -53,7 +53,7 @@ conversor_5v = (function() {
         center: [1, 1, 0],
         size:[x, y, z],
         radius: [1, 1, 0]
-      }).translate([0, 0, dim.parede]);
+      }).translate([0, 0, dim.parede + 15]);
 
     return shell.subtract(hollow).translate([dim.principal.x/2, dim.principal.y/2, 0])
   }
