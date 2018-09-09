@@ -62,7 +62,7 @@ led_driver = (function() {
     return shell().subtract(cable_hollow("SW")).subtract(cable_hollow("NE")).union(screw_holder("NW")).union(screw_holder("SE"))
   }
 
-  return {base}
+  return {base, dim}
 })()
 
 function main() {
