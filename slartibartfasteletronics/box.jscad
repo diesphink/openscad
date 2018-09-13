@@ -39,12 +39,12 @@ function shell() {
 
 main = function() {
   var c5v = conversor_5v.base()
-  .rotateZ(180)
-  .translate([-47.6, 59.1, 0])
-  .setColor([0.6, 0.2, 0.2])
+    .rotateZ(180)
+    .translate([-47.6, 59.1, 0])
+    .setColor([0.2, 0.4, 0.6])
 
   var w2 = wago222.base()
-    .setColor([0.2, 0.6, 0.2])
+    .setColor([0.2, 0.4, 0.6])
     .translate([0, -62.4, 0])
     .rotateX(270)
     .translate([-30, -60.25, 0])
@@ -62,7 +62,7 @@ main = function() {
       7,//-dim.x/2 + relay_4ch.dim.y/2 + dim.parede + dim.folga - 0.2,
       dim.y/2 - relay_4ch.dim.y/2 - dim.parede - dim.folga + 0.2 - 5,
       0])
-    .setColor([0.2, 0.2, 0.6])
+    .setColor([0.2, 0.4, 0.6])
 
   var c12v = conversor_12v.base()
     .rotateZ(180)
@@ -70,15 +70,15 @@ main = function() {
     .setColor([0.2, 0.4, 0.6])
 
   var ld = led_driver.base()
-    .setColor([0.4, 0.9, 0.7])
+    .setColor([0.2, 0.4, 0.6])
     .translate([
       40,
       -(dim.y - led_driver.dim.y)/2 + 1.1,
       dim.parede])
 
     var pptranslate = [-dim.x/2 - dim.parede - dim.folga, -20, 0]
-    var pp = powerplug.base().translate(pptranslate).setColor([0.6, 0.2, 0.6])
-    var pph = powerplug.hollow().translate(pptranslate).setColor([0.6, 0.2, 0.6])
+    var pp = powerplug.base().translate(pptranslate).setColor([0.2, 0.4, 0.6])
+    var pph = powerplug.hollow().translate(pptranslate).setColor([0.2, 0.4, 0.6])
 
 
   return shell().setColor([0.6, 0.6, 0.6])
