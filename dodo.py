@@ -107,7 +107,7 @@ def profile_file_if_exists(profile):
 def deploy_folder_for(dir):
     ret = []
     for part in dir.split(os.sep):
-        if part != 'things' and part != 'files' and part != 'stl':
+        if part != 'files' and part != 'stl':
             ret += [part.replace(' ', '_')]
     return os.path.join(OCTOPI_UPLOAD_FOLDER, os.sep.join(ret))
 
