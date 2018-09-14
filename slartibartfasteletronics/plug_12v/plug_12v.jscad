@@ -3,10 +3,10 @@ plug_12v = (function() {
 
   var dim = {
     x: 32,
-    y0: 11,
+    y0: 10,
     y1: 14,
     y2: 10,
-    r: 3,
+    r: 3.2,
     z: 11,
     folga: 0.2,
     parede: 1.2,
