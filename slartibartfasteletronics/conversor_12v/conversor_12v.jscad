@@ -1,4 +1,6 @@
 conversor_12v = (function() {
+  "use strict"
+
   var conversor = {}
   conversor.x = 52
   conversor.y = 35
@@ -33,18 +35,18 @@ conversor_12v = (function() {
     return shell.subtract(hollow).translate([conversor.x/2, conversor.y/2, 0])
   }
 
-  cable = {}
+  var cable = {}
   cable.x = 6
   cable.y = 12
   cable.z = 15
 
-  folga_extra_slit = .2
-  slit = {}
+  var folga_extra_slit = .2
+  var slit = {}
   slit.x = 2 + folga_extra_slit
   slit.y = 9 + folga_extra_slit
   slit.z = 9 + folga_extra_slit
 
-  plug = {}
+  var plug = {}
   plug.x = 10
   plug.y = 8 + parede
   plug.z = 8
@@ -53,7 +55,7 @@ conversor_12v = (function() {
 
   function cable_holder() {
     cable_holder = cube({size: [cable.x, cable.y, cable.z + z_displacement]})
-    slits = cube({size:[slit.x + folga, slit.y + folga, slit.z + folga]})
+    var slits = cube({size:[slit.x + folga, slit.y + folga, slit.z + folga]})
     slits = slits.translate([(cable.x - slit.x)/2 , (cable.y - slit.y)/2, cable.z - slit.z  + z_displacement])
     cable_holder = cable_holder.subtract(slits).setColor([0,0,1])
       .rotateZ(270)
@@ -63,8 +65,8 @@ conversor_12v = (function() {
   }
 
   function cable_holder_hollow() {
-    largura = 4.6
-    altura = slit.z - (slit.z - largura)/2
+    var largura = 4.6
+    var altura = slit.z - (slit.z - largura)/2
 
     return cube({
       size: [largura + folga, cable.x * 3, altura],
@@ -83,17 +85,17 @@ conversor_12v = (function() {
       center:[1, 1, 0]
     })
 
-    hollow = cube({
+    var hollow = cube({
       size: [plug.x + 2*folga, plug.y + 2*folga, plug.z],
       center:[1, 1, 0]
     }).translate([0, 0, plug.pos_z + z_displacement])
 
-    slit = cube({
+    var slit = cube({
       size: [1, 2, plug.z],
       center:[0, 0, 0]
     }).translate([plug.x, 1, plug.pos_z + z_displacement])
 
-    wall = cube({
+    var wall = cube({
       size: [plug.x + 4 * parede + 2 * folga, parede, plug.pos_z + 3],
       center:[1, 0, 0]
     }).translate([0, plug.y/2 - parede, + z_displacement])

@@ -13,24 +13,6 @@ plug_12v = (function() {
     altura_plugue: 2
   }
 
-  // plug_x = 16;
-  // plug_y = 32;
-  // plug_z = 11;
-  // module plug() {
-  //   difference() {
-  //     cube([plug_x, plug_y, plug_z-0.01], center=true);
-  //     // temporário
-  //     translate([0, 15, 2])
-  //       cube([8.01, 2.01, plug_z], center=true);
-  //     translate([0, 10.5, 2])
-  //       cube([10.01, 7.01, plug_z], center=true);
-  //     translate([0, -4, 1])
-  //       cube([14.01, 22.01, plug_z], center=true);
-  //     translate([0, -15, 1])
-  //       cube([11.01, 2.01, plug_z], center=true);
-  //   }
-  // }
-
   function base() {
     var shell = cube({
       size: [
@@ -41,12 +23,6 @@ plug_12v = (function() {
       center: [0, 1, 0],
       radius: [1, 1, 0]
     })
-
-    // shell = shell.subtract(cube({size:[1, dim.y0 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([0, 0, dim.parede]))
-    // shell = shell.subtract(cube({size:[22, dim.y1 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([1, 0, dim.parede]))
-    // shell = shell.subtract(cube({size:[7, dim.y2 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([23, 0, dim.parede + 1]))
-    // shell = shell.subtract(cube({size:[2, dim.r*2 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([30, 0, dim.parede + dim.altura_plugue + dim.r]))
-    // shell = shell.subtract(cylinder({r: dim.r + dim.folga, h: 2, center: [true, true, false]}).rotateY(90).translate([30, 0, dim.parede + dim.altura_plugue + dim.r]))
 
     return shell.subtract(hollow())
   }
