@@ -82,9 +82,9 @@ main = function() {
     var pph = powerplug.hollow().translate(pptranslate).setColor([0.2, 0.4, 0.6])
 
     var p12vtranslate = [dim.x/2 - plug_12v.dim.x + dim.parede + dim.folga,
-                        0,
-                        // 0]
-                        dim.z - plug_12v.dim.z -dim.parede - dim.folga]
+                        9,
+                        0]
+                        // dim.z - plug_12v.dim.z -dim.parede - dim.folga]
     var p12v = plug_12v.base().translate(p12vtranslate).setColor([0.2, 0.4, 0.6])
     var p12vh = plug_12v.hollow().translate(p12vtranslate).setColor([0.2, 0.4, 0.6])
 
@@ -96,8 +96,8 @@ main = function() {
   .union(c12v)
   .union(ld)
   .union(pp)
-  .union(p12v)
   .subtract(pph)
+  .union(p12v)
   .subtract(p12vh)
 
 }

@@ -1,21 +1,22 @@
 conversor_12v = (function() {
-  conversor = {}
+  var conversor = {}
   conversor.x = 52
   conversor.y = 35
   conversor.z = 15
+  var z_displacement = 10
 
   // Folga entre pcb e shell
-  folga = .2
+  var folga = .2
 
   // Tamanho da parede do shell
-  parede = 1
+  var parede = 1
 
   function mainshell() {
     var shell = cube({
       size:[
         conversor.x + parede * 2 + folga * 2,
         conversor.y + parede * 2 + folga * 2,
-        conversor.z
+        conversor.z + z_displacement
       ],
       center:[1, 1, 0],
     radius: [1,1,0]})
@@ -26,7 +27,7 @@ conversor_12v = (function() {
         conversor.y + folga * 2,
         conversor.z
       ],
-      center:[1, 1, 0]}).translate([0, 0, parede])
+      center:[1, 1, 0]}).translate([0, 0, parede + z_displacement])
 
 
     return shell.subtract(hollow).translate([conversor.x/2, conversor.y/2, 0])
@@ -51,12 +52,12 @@ conversor_12v = (function() {
   plug.pos_z = 7
 
   function cable_holder() {
-    cable_holder = cube({size: [cable.x, cable.y, cable.z]})
+    cable_holder = cube({size: [cable.x, cable.y, cable.z + z_displacement]})
     slits = cube({size:[slit.x + folga, slit.y + folga, slit.z + folga]})
-    slits = slits.translate([(cable.x - slit.x)/2 , (cable.y - slit.y)/2, cable.z - slit.z])
+    slits = slits.translate([(cable.x - slit.x)/2 , (cable.y - slit.y)/2, cable.z - slit.z  + z_displacement])
     cable_holder = cable_holder.subtract(slits).setColor([0,0,1])
       .rotateZ(270)
-      .translate([0, conversor.y + folga + parede + cable.x, 0])
+      .translate([0, conversor.y + folga + parede + cable.x,  0])
 
     return cable_holder//.translate([-folga -cable.x, conversor.y + folga + parede - cable.y , 0])
   }
@@ -68,34 +69,34 @@ conversor_12v = (function() {
     return cube({
       size: [largura + folga, cable.x * 3, altura],
       center: [1,1,0]
-    }).translate([cable.y / 2, conversor.y + folga + parede, cable.z - altura])
+    }).translate([cable.y / 2, conversor.y + folga + parede, cable.z - altura  + z_displacement])
   }
 
   function plug_hollow() {
     return cube([plug.x + 2 * folga, parede * 3, conversor.z])
-    .translate([conversor.x - plug.pos_x - plug.x, conversor.y, parede])
+    .translate([conversor.x - plug.pos_x - plug.x, conversor.y, parede +  z_displacement])
   }
 
   function plugue() {
     var shell = cube({
-      size:[plug.x + 4 * parede + 2 * folga, plug.y, plug.z + plug.pos_z ],
+      size:[plug.x + 4 * parede + 2 * folga, plug.y, plug.z + plug.pos_z  + z_displacement],
       center:[1, 1, 0]
     })
 
     hollow = cube({
       size: [plug.x + 2*folga, plug.y + 2*folga, plug.z],
       center:[1, 1, 0]
-    }).translate([0, 0, plug.pos_z])
+    }).translate([0, 0, plug.pos_z + z_displacement])
 
     slit = cube({
       size: [1, 2, plug.z],
       center:[0, 0, 0]
-    }).translate([plug.x, 1, plug.pos_z])
+    }).translate([plug.x, 1, plug.pos_z + z_displacement])
 
     wall = cube({
       size: [plug.x + 4 * parede + 2 * folga, parede, plug.pos_z + 3],
       center:[1, 0, 0]
-    }).translate([0, plug.y/2 - parede, 0])
+    }).translate([0, plug.y/2 - parede, + z_displacement])
 
     shell = shell.subtract(hollow)
     shell = shell.union(wall)
