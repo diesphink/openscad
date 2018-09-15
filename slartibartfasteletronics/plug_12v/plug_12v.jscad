@@ -42,16 +42,25 @@ plug_12v = (function() {
       radius: [1, 1, 0]
     })
 
-    shell = shell.subtract(cube({size:[1, dim.y0 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([0, 0, dim.parede]))
-    shell = shell.subtract(cube({size:[22, dim.y1 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([1, 0, dim.parede]))
-    shell = shell.subtract(cube({size:[7, dim.y2 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([23, 0, dim.parede + 1]))
-    shell = shell.subtract(cube({size:[2, dim.r*2 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([30, 0, dim.parede + dim.altura_plugue + dim.r]))
-    shell = shell.subtract(cylinder({r: dim.r + dim.folga, h: 2, center: [true, true, false]}).rotateY(90).translate([30, 0, dim.parede + dim.altura_plugue + dim.r]))
+    // shell = shell.subtract(cube({size:[1, dim.y0 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([0, 0, dim.parede]))
+    // shell = shell.subtract(cube({size:[22, dim.y1 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([1, 0, dim.parede]))
+    // shell = shell.subtract(cube({size:[7, dim.y2 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([23, 0, dim.parede + 1]))
+    // shell = shell.subtract(cube({size:[2, dim.r*2 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([30, 0, dim.parede + dim.altura_plugue + dim.r]))
+    // shell = shell.subtract(cylinder({r: dim.r + dim.folga, h: 2, center: [true, true, false]}).rotateY(90).translate([30, 0, dim.parede + dim.altura_plugue + dim.r]))
 
-    return shell
+    return shell.subtract(hollow())
   }
 
-  return {base}
+  function hollow() {
+    return cube({size:[1, dim.y0 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([0, 0, dim.parede])
+    .union(cube({size:[22, dim.y1 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([1, 0, dim.parede]))
+    .union(cube({size:[7, dim.y2 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([23, 0, dim.parede + 1]))
+    .union(cube({size:[2, dim.r*2 + dim.folga * 2, dim.z * 2], center:[0, 1, 0]}).translate([30, 0, dim.parede + dim.altura_plugue + dim.r]))
+    .union(cylinder({r: dim.r + dim.folga, h: 2, center: [true, true, false]}).rotateY(90).translate([30, 0, dim.parede + dim.altura_plugue + dim.r]))
+
+  }
+
+  return {base, dim, hollow}
 })()
 
 function main() {
