@@ -6,7 +6,7 @@ plug_12v = (function() {
     y0: 10,
     y1: 14,
     y2: 10,
-    r: 3.2,
+    r: 3.5,
     z: 11,
     folga: 0.2,
     parede: 1.2,
