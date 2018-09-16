@@ -6,9 +6,10 @@ include('wago222/wago222.jscad')
 include('powerplug/powerplug.jscad')
 include('plug_12v/plug_12v.jscad')
 include('plug_12v_led/plug_12v_led.jscad')
+include('plug_110v/plug_110v.jscad')
 
 var dim = {
-  x: 200,
+  x: 210,
   y: 120,
   z: 30,
   folga: 0.2,
@@ -42,27 +43,27 @@ function shell() {
 main = function() {
   var c5v = conversor_5v.base()
     .rotateZ(180)
-    .translate([-47.6, 59.1, 0])
+    .translate([-dim.x/2 + conversor_5v.dim.principal.x + dim.parede - 0.2, 59.1, 0])
     .setColor([0.2, 0.4, 0.6])
 
   var w2 = wago222.base()
     .setColor([0.2, 0.4, 0.6])
     .translate([0, -62.4, 0])
     .rotateX(270)
-    .translate([-30, -60.25, 0])
+    .translate([-40, -60.25, 0])
 
   var r4c = relay_4ch.base()
     .rotateZ(180)
-    .union(cube({
-      size: [
-        relay_4ch.dim.x + (relay_4ch.dim.parede + relay_4ch.dim.folga) * 2,
-        6,
-        relay_4ch.dim.z],
-      center: [1, 0, 0]
-    }).translate([0, relay_4ch.dim.y/2 + dim.folga * 2, 0]))
+    // .union(cube({
+    //   size: [
+    //     relay_4ch.dim.x + (relay_4ch.dim.parede + relay_4ch.dim.folga) * 2,
+    //     6,
+    //     relay_4ch.dim.z],
+    //   center: [1, 0, 0]
+    // }).translate([0, relay_4ch.dim.y/2 + dim.folga * 2, 0]))
     .translate([
       7,//-dim.x/2 + relay_4ch.dim.y/2 + dim.parede + dim.folga - 0.2,
-      dim.y/2 - relay_4ch.dim.y/2 - dim.parede - dim.folga + 0.2 - 5,
+      dim.y/2 - relay_4ch.dim.y/2 - dim.parede - dim.folga + 0.2,// - 5,
       0])
     .setColor([0.2, 0.4, 0.6])
 
@@ -74,7 +75,7 @@ main = function() {
   var ld = led_driver.base()
     .setColor([0.2, 0.4, 0.6])
     .translate([
-      45,
+      47,
       -(dim.y - led_driver.dim.y)/2 + 1.1,
       dim.parede])
 
@@ -92,9 +93,12 @@ main = function() {
     var p12vltranslate = [dim.x/2 - plug_12v_led.dim.x + dim.parede + dim.folga,
                         -12.5,
                         0]
-
     var p12vl = plug_12v_led.base().translate(p12vltranslate).setColor([0.2, 0.4, 0.6])
     var p12vlh = plug_12v_led.hollow().translate(p12vltranslate).setColor([0.2, 0.4, 0.6])
+
+    var p100vtranslate = [-27, -dim.y/2 - dim.parede - dim.folga, 0]
+    var p100v = plug_110v.base().rotateZ(90).translate(p100vtranslate).setColor([0.2, 0.4, 0.6])
+    var p100vh = plug_110v.hollow().rotateZ(90).translate(p100vtranslate).setColor([0.2, 0.4, 0.6])
 
   return shell().setColor([0.6, 0.6, 0.6])
   .union(c5v)
@@ -108,6 +112,8 @@ main = function() {
   .subtract(p12vh)
   .union(p12vl)
   .subtract(p12vlh)
+  .union(p100v)
+  .subtract(p100vh)
 
 
 }
