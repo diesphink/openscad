@@ -8,8 +8,8 @@ relay_4ch = (function() {
     parede: 1.2,
     altura_pcb: 7,
     screw_r: 1.6,
-    gap_screw_shell: 3.4 // distância da parede ao centro do screw
-
+    gap_screw_shell: 3.4, // distância da parede ao centro do screw
+    z_displacement: 0
   }
 
   function shell() {
@@ -17,7 +17,7 @@ relay_4ch = (function() {
       size: [
         dim.x + (dim.parede + dim.folga) * 2,
         dim.y + (dim.parede + dim.folga) * 2,
-        dim.z],
+        dim.z + dim.z_displacement],
       center: [1, 1, 0],
       radius: [1, 1, 0]
     })
@@ -29,7 +29,7 @@ relay_4ch = (function() {
         dim.z + dim.folga * 2],
       center: [1, 1, 0],
       radius: [1, 1, 0]
-    }).translate([0, 0, dim.parede])
+    }).translate([0, 0, dim.parede + dim.z_displacement])
 
     return shell.subtract(hollow)
   }
@@ -64,7 +64,7 @@ relay_4ch = (function() {
           screw_hole = screw_hole.translate([dim.x/2 - dim.gap_screw_shell, 0, 0])
         }
       }
-      return screw_hole
+      return screw_hole.translate([0, 0, dim.z_displacement])
   }
 
   function cable_hole() {
@@ -73,7 +73,7 @@ relay_4ch = (function() {
       center: [1, 1, 0]
     })
     .setColor([1, 0, 0])
-    .translate([0, dim.y/2 + dim.parede, dim.altura_pcb])
+    .translate([0, dim.y/2 + dim.parede, dim.altura_pcb + dim.z_displacement])
   }
 
   function base() {
@@ -125,3 +125,7 @@ relay_4ch = (function() {
 
   return {base, tampa, dim}
 })()
+
+function main() {
+  return relay_4ch.base()
+}

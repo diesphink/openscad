@@ -7,6 +7,7 @@ include('powerplug/powerplug.jscad')
 include('plug_12v/plug_12v.jscad')
 include('plug_12v_led/plug_12v_led.jscad')
 include('plug_110v/plug_110v.jscad')
+include('wall_mount/wall_mount.js')
 
 var dim = {
   x: 210,
@@ -100,6 +101,10 @@ main = function() {
     var p100v = plug_110v.base().rotateZ(90).translate(p100vtranslate).setColor([0.2, 0.4, 0.6])
     var p100vh = plug_110v.hollow().rotateZ(90).translate(p100vtranslate).setColor([0.2, 0.4, 0.6])
 
+    var wmtranslate = [47, 0, 0]
+    var wm = wall_mount.base().rotateZ(270).translate(wmtranslate).setColor([0.2, 0.4, 0.6])
+    var wmh = wall_mount.hollow().rotateZ(270).translate(wmtranslate).setColor([0.2, 0.4, 0.6])
+
   return shell().setColor([0.6, 0.6, 0.6])
   .union(c5v)
   .union(w2)
@@ -114,6 +119,8 @@ main = function() {
   .subtract(p12vlh)
   .union(p100v)
   .subtract(p100vh)
+  .union(wm)
+  .subtract(wmh)
 
 
 }

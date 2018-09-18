@@ -3,8 +3,8 @@ wall_mount = (function() {
 
   var dim = {
     x: 34,
-    y0: 8,
-    y1: 12,
+    y0: 6,
+    y1: 10,
     z0: 3,
     z1: 5,
     parede:1.2,
