@@ -12,7 +12,7 @@ from configobj import ConfigObj
 
 colorama.init()
 
-DOIT_CONFIG = {'verbosity': 2, 'reporter':'executed-only', 'default_tasks': ['scad_to_stl', 'jscad_to_stl', 'stl_to_gcode']}
+DOIT_CONFIG = {'verbosity': 1, 'reporter':'executed-only', 'default_tasks': ['scad_to_stl', 'jscad_to_stl', 'stl_to_gcode']}
 
 OPENSCAD = 'openscad'
 OPENJSCAD = 'openjscad'
@@ -95,13 +95,12 @@ def profiles_from_properties(properties):
         return profiles.strip().split(' ')
     return SLIC3R_DEFAULT_PROFILES
 
-def pauses_from_properties(properties):
-    config = ConfigObj(properties)
-    if 'm600' in config:
-        m600 = config['m600']
-        return m600.strip()
-    else:
-        return ''
+def set_env(properties):
+    if properties:
+        config = ConfigObj(properties)
+        if 'm600' in config:
+            m600 = config['m600']
+            os.environ['SLIC3R_CUSTOM_PAUSES'] = m600
 
 def profile_files(profiles):
     files = profile_file_if_exists('default')
@@ -197,13 +196,12 @@ def task_stl_to_gcode():
             for profile in profiles:
                 profiles_args += ['--load', profile]
 
-            os.environ["SLIC3R_CUSTOM_PAUSES"] = pauses_from_properties(slic3r_properties)
-
             yield {
                 'name': gcode,
                 'title': title,
                 'actions': [
                     (create_folder, [pathgcode]),
+                    (set_env, [slic3r_properties]),
                     [SLIC3R, stl, '--print-center', '125,105', '--post-process', './post_process.py', '--output', gcode] + profiles_args],
                 'file_dep': [stl] + profiles,
                 'targets': [gcode]

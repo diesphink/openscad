@@ -10,3 +10,5 @@ things/
 \.doit\.db
 
 dodo\.pyc
+
+*.original
