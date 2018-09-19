@@ -12,7 +12,7 @@ from configobj import ConfigObj
 
 colorama.init()
 
-DOIT_CONFIG = {'verbosity': 2, 'reporter':'executed-only', 'default_tasks': ['scad_to_stl', 'jscad_to_stl', 'stl_to_gcode']}
+DOIT_CONFIG = {'verbosity': 1, 'reporter':'executed-only', 'default_tasks': ['scad_to_stl', 'jscad_to_stl', 'stl_to_gcode']}
 
 OPENSCAD = 'openscad'
 OPENJSCAD = 'openjscad'
@@ -28,6 +28,12 @@ TAG_STL = Style.BRIGHT + Back.BLUE + Fore.CYAN + "  STL    " + Style.RESET_ALL
 TAG_GCODE = Style.BRIGHT + Back.GREEN + Fore.GREEN + "  GCODE  " + Style.RESET_ALL
 TAG_RSYNC = Style.BRIGHT + Back.MAGENTA + Fore.MAGENTA + "  RSYNC  " + Style.RESET_ALL
 
+TAG_STL_PLAIN =   "[ STL   ]"
+TAG_GCODE_PLAIN = "[ GCODE ]"
+TAG_RSYNC_PLAIN = "[ RSYNC ]"
+
+def has_ansi():
+    return hasattr(sys.stdout, "isatty") and sys.stdout.isatty()
 
 def output_for_scad(scad):
     dir = os.path.join(os.path.dirname(scad), 'stl')
@@ -114,17 +120,18 @@ def deploy_folder_for(dir):
 def title(task):
     name = task.name
     if name.endswith('-rsync'):
-        tag = TAG_RSYNC
+        tag = TAG_RSYNC if has_ansi() else TAG_RSYNC_PLAIN
         name = name[:-6]
     elif name.endswith('stl'):
-        tag = TAG_STL
+        tag = TAG_STL if has_ansi() else TAG_STL_PLAIN
     elif name.endswith('gcode'):
-        tag = TAG_GCODE
+        tag = TAG_GCODE if has_ansi() else TAG_GCODE_PLAIN
 
     basename = os.path.basename(name)
     path = os.path.dirname(name).split(os.sep)[1]
+    rest = Style.BRIGHT + basename + Style.RESET_ALL if has_ansi() else basename
 
-    return '%s %s %s' % (tag, path, Style.BRIGHT + basename + Style.RESET_ALL)
+    return '%s %s %s' % (tag, path, rest)
 
 def task_scad_to_stl():
     """Generate STLs"""
