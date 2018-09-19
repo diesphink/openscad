@@ -12,7 +12,7 @@ from configobj import ConfigObj
 
 colorama.init()
 
-DOIT_CONFIG = {'verbosity': 1, 'reporter':'executed-only', 'default_tasks': ['scad_to_stl', 'jscad_to_stl', 'stl_to_gcode']}
+DOIT_CONFIG = {'verbosity': 2, 'reporter':'executed-only', 'default_tasks': ['scad_to_stl', 'jscad_to_stl', 'stl_to_gcode']}
 
 OPENSCAD = 'openscad'
 OPENJSCAD = 'openjscad'
@@ -100,6 +100,8 @@ def pauses_from_properties(properties):
     if 'm600' in config:
         m600 = config['m600']
         return m600.strip()
+    else:
+        return ''
 
 def profile_files(profiles):
     files = profile_file_if_exists('default')
@@ -195,9 +197,7 @@ def task_stl_to_gcode():
             for profile in profiles:
                 profiles_args += ['--load', profile]
 
-            if slic3r_properties:
-                if pauses_from_properties(slic3r_properties):
-                    os.environ["SLIC3R_CUSTOM_PAUSES"] = pauses_from_properties(slic3r_properties)
+            os.environ["SLIC3R_CUSTOM_PAUSES"] = pauses_from_properties(slic3r_properties)
 
             yield {
                 'name': gcode,
