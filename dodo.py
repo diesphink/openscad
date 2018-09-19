@@ -101,6 +101,10 @@ def set_env(properties):
         if 'm600' in config:
             m600 = config['m600']
             os.environ['SLIC3R_CUSTOM_PAUSES'] = m600
+            return
+
+    os.environ['SLIC3R_CUSTOM_PAUSES'] = ''
+
 
 def profile_files(profiles):
     files = profile_file_if_exists('default')
