@@ -95,6 +95,12 @@ def profiles_from_properties(properties):
         return profiles.strip().split(' ')
     return SLIC3R_DEFAULT_PROFILES
 
+def pauses_from_properties(properties):
+    config = ConfigObj(properties)
+    if 'm600' in config:
+        m600 = config['m600']
+        return m600.strip()
+
 def profile_files(profiles):
     files = profile_file_if_exists('default')
     for profile in profiles:
@@ -189,12 +195,16 @@ def task_stl_to_gcode():
             for profile in profiles:
                 profiles_args += ['--load', profile]
 
+            if slic3r_properties:
+                if pauses_from_properties(slic3r_properties):
+                    os.environ["SLIC3R_CUSTOM_PAUSES"] = pauses_from_properties(slic3r_properties)
+
             yield {
                 'name': gcode,
                 'title': title,
                 'actions': [
                     (create_folder, [pathgcode]),
-                    [SLIC3R, stl, '--print-center', '125,105', '--output', gcode] + profiles_args],
+                    [SLIC3R, stl, '--print-center', '125,105', '--post-process', './post_process.py', '--output', gcode] + profiles_args],
                 'file_dep': [stl] + profiles,
                 'targets': [gcode]
             }
