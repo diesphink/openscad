@@ -13,6 +13,20 @@ plug_12v = (function() {
     altura_plugue: 2
   }
 
+  function screw_tab() {
+    var screw_tab = cube({
+      size:[12, 12, 1],
+      fn: 16,
+      radius: [2, 2, 0],
+      center: [1, 1, 0]
+    })
+    .subtract(cylinder({r: 1.6, h: dim.z, center: [true, true, false]}))
+    .translate([0, -2, 0])
+    .setColor([1,0,0])
+
+    return screw_tab;
+  }
+
   function base() {
     var shell = cube({
       size: [
@@ -36,9 +50,11 @@ plug_12v = (function() {
 
   }
 
-  return {base, dim, hollow}
+  return {base, dim, hollow, screw_tab}
 })()
 
 function main() {
   return plug_12v.base()
+  // .union(plug_12v.screw_tab().translate([plug_12v.dim.x/2, -11, 0]))
+  .union(plug_12v.screw_tab().mirroredY().translate([plug_12v.dim.x/2, 11, 0]))
 }
