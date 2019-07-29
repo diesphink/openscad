@@ -32,7 +32,7 @@ caixa = (function() {
     var cantoNW = cantoSW.translate([0, dim.placa.y + dim.placa.folga - dim.canto.y, 0])
     var cantoNE = cantoSE.translate([0, dim.placa.y + dim.placa.folga - dim.canto.y, 0])
 
-    var buraco_cabo = cylinder({r: dim.cabo, h: dim.x}).rotateX(90).scale([1, 1, 0.5]).translate([0, 0, dim.z/3])
+    var buraco_cabo = cylinder({r: dim.cabo, h: dim.z}).scale([1, 0.5, 1]).translate([0, dim.y/3, 0])
 
 
     var slit = cube({
