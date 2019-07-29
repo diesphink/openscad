@@ -89,18 +89,7 @@ caixa = (function() {
   }
 
 
-  function full() {
-    return caixa().union(
-          tampa().rotateZ(90).rotateX(180).translate([0,0,dim.z + dim.tampa.z])
-      )
-      .rotateX(90)
-      .translate([dim.x/2 + dim.slit.x + dim.base.parede_grossa, dim.z + dim.tampa.z, dim.y/2])
-      .translate([0, 0, dim.base.z])
-      .setColor([0.2, 0.6, 0.8])
-      .union(base())
-  }
-
-  return {dim, caixa, caixa_top, full}
+  return {dim, caixa, caixa_top}
 })()
 
 function main() {

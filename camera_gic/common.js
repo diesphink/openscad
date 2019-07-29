@@ -6,7 +6,7 @@ common = (function() {
     y: 43,
     z: 21,
     cabo: 5,
-    fn: 20,
+    fn: 18,
     placa: {
       x: 38,
       y: 38,
@@ -49,7 +49,7 @@ common = (function() {
       }
     },
      base: {
-       y: 40,
+       y: 50,
        x: 80,
        z: 3,
        parede_grossa: 2,
@@ -67,6 +67,7 @@ common = (function() {
   dim.base.suporte.y = dim.slit.z
   dim.base.inicio_ranhura = dim.y/2 - 10
   dim.base.x = dim.base.folga + dim.x + dim.slit.x*2 + 6*dim.base.parede_grossa + dim.base.raio_parafuso_grande * 2
+
 
 return {dim}
 })()
