@@ -4,48 +4,57 @@ tampa = (function() {
   "use strict"
 
   var dim = common.dim
+  dim.tampa.folga = 0.5
 
   function tampa() {
     var base_maior = cube({
       size: [dim.x, dim.y, dim.tampa.z + 5],
       radius: [3, 3, 2],
-      center: [1, 1, 0],
+      center: [0, 1, 0],
       fn: dim.fn
     })
 
-    base_maior = base_maior.subtract(cube({size: [dim.x, dim.y, dim.tampa.z + 5], center: [1,1,0]}).translate([0, 0, dim.tampa.z]))
+    base_maior = base_maior.subtract(cube({size: [dim.x, dim.y, dim.tampa.z + 5], center: [0,1,0]}).translate([0, 0, dim.tampa.z]))
 
+    var lid1 = cube({
+      size: [dim.placa.x + dim.placa.folga - dim.tampa.folga, dim.tampa.lid.bloco, dim.tampa.lid.z + dim.tampa.z],
+      center: [0, 0, 0],
+      radius: [1, 1, 1],
+    }).translate([dim.parede_caixa + dim.tampa.folga/2, (dim.placa.y + dim.placa.folga)/2  - dim.tampa.lid.bloco - dim.tampa.folga, 0])
 
-    var lid = cube({
-      size: [dim.tampa.lid.x, dim.placa.y + dim.placa.folga - dim.tampa.folga, dim.tampa.lid.z],
-      center: [1, 1, 0],
-    })
+    var lid2 = lid1.translate([0, -(dim.placa.y + dim.placa.folga) + dim.tampa.lid.bloco + 2*dim.tampa.folga, 0])
 
-    // Barras maiores (cubo grande)
-    lid = lid.subtract(
-      cube({
-        size: [dim.tampa.lid.x - dim.tampa.lid.barra * 2, dim.placa.y + dim.placa.folga - dim.tampa.folga + 4, dim.tampa.lid.z + 4],
-        center: [1, 1, 0],
-      }).translate([0, 0, 2])
-    ) // cubo menor dentro, semi redondo
+    var lid3 = cube({
+      size: [dim.rj45.x - dim.tampa.folga, dim.tampa.lid.bloco, 5],
+      center: [0, 0, 0],
+      radius: [1, 1, 1],
+    }).translate([dim.x - dim.rj45.x - dim.tampa.folga/2 - dim.parede_caixa, -(dim.placa.y + dim.placa.folga)/2 + dim.rj45.distancia, 0])
 
-    lid = lid.subtract(
-      cube({
-          size: [dim.tampa.lid.x - dim.tampa.lid.barra * 2, dim.placa.y + dim.placa.folga - dim.tampa.folga - 2, dim.tampa.lid.z + 4],
-          radius: [6, 0, 2],
-          center: [1, 1, 0],
-          fn: 10
-      })
-    )
-
-    lid = lid.translate([0, 0, dim.tampa.z])
+    var lid4 = cube({
+      size: [dim.rj45.x - dim.tampa.folga, dim.tampa.lid.bloco, dim.tampa.lid.z + dim.tampa.z],
+      center: [0, 0, 0],
+      radius: [1, 1, 1],
+    }).translate([dim.x - dim.rj45.x - dim.tampa.folga/2 - dim.parede_caixa, (dim.placa.y + dim.placa.folga)/2 - dim.canto.y - dim.tampa.lid.bloco, 0])
 
     // Cilindro central
     var cc = cylinder({
       r: dim.tampa.r,
-      h: dim.tampa.lid.z,
+      h: dim.tampa.lid.z * 2,
       fn: dim.fn
+    }).translate([dim.parede_caixa + (dim.placa.x + dim.placa.folga)/2, 0, 0])
+
+
+    // Snaps
+    var snap1 = cylinder({
+      r: dim.tampa.snap.r,
+      h: dim.tampa.snap.y
     })
+    .rotateY(90).translate([
+      //dim.parede_caixa + (dim.placa.x + dim.placa.folga)/2 - dim.tampa.snap.y/2,
+      dim.x/2-dim.tampa.snap.y/2,
+      (dim.placa.y + dim.placa.folga)/2 - dim.tampa.folga,
+      dim.tampa.lid.z + dim.tampa.z - dim.tampa.snap.r])
+    var snap2 = snap1.translate([0, -dim.placa.y - dim.placa.folga + 2*dim.tampa.folga, 0])
 
     // // Cilindro suporte
     // var c = cylinder({
@@ -56,15 +65,12 @@ tampa = (function() {
     //   h: dim.tampa.lid.z
     // })).translate([0, 0, dim.tampa.z])
 
-    // Snaps
-    var snap1 = cylinder({
-      r: dim.tampa.snap.r,
-      h: dim.tampa.snap.y
-    }).rotateX(90).translate([-dim.tampa.lid.x/2, dim.tampa.snap.y/2, dim.tampa.lid.z + dim.tampa.z - dim.tampa.snap.r])
-    var snap2 = snap1.rotateZ(180)
 
     return base_maior
-      .union(lid)
+      .union(lid1)
+      .union(lid2)
+      .union(lid3)
+      .union(lid4)
       // .union(c)
       .union(snap1)
       .union(snap2)

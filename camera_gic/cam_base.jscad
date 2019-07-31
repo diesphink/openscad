@@ -7,6 +7,8 @@ base = (function() {
   "use strict"
 
   var dim = common.dim
+  dim.base.x = 90
+  dim.base.folga = 0
 
   function base() {
 
@@ -27,7 +29,7 @@ base = (function() {
     })
 
     var interno_suporte = cube({
-      size: [interno_x, dim.base.y - dim.z + dim.base.parede_fina, dim.base.suporte.z + 20],
+      size: [interno_x, dim.base.y - dim.z + dim.base.parede_fina + 10, dim.base.suporte.z + 20],
       radius: [5, 0, 20],
       fn: 10
     }).translate([dim.base.parede_grossa, -5, 0])
@@ -52,7 +54,7 @@ base = (function() {
         circle(dim.base.raio_parafuso_grande),
         circle(dim.base.raio_parafuso_grande).translate([0, dim.base.y - 4*dim.base.parede_grossa - 2*dim.base.raio_parafuso_grande, 0]))
     .extrude({ offset: [0, 0, dim.base.x] })
-    .translate([interno_x + dim.base.parede_grossa * 4, 2*dim.base.parede_grossa, 0])
+    .translate([dim.base.x - 2*dim.base.parede_grossa - 2*dim.base.raio_parafuso_grande, 2*dim.base.parede_grossa, 0])
 
     var par_fina1 = cube({
       size: [dim.slit.x - dim.base.folga, dim.base.parede_fina + 5, dim.base.suporte.z],
@@ -78,7 +80,7 @@ base = (function() {
     return base().union(
       caixa.caixa()
       .union(
-          tampa.tampa().rotateZ(90).rotateX(180).translate([0,0,dim.z + dim.tampa.z])
+          tampa.tampa().rotateZ(0).rotateX(180).translate([0,0,dim.z + dim.tampa.z])
       )
       .rotateX(90)
       .translate([dim.x/2 + dim.slit.x + dim.base.parede_grossa, dim.z + dim.tampa.z, dim.y/2])

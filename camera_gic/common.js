@@ -3,19 +3,19 @@ common = (function() {
 
   var dim = {
     x: 43,
-    y: 43,
-    z: 21,
+    y: 42,
+    z: 25,
     cabo: 5,
     fn: 18,
     placa: {
       x: 38,
       y: 38,
-      folga: 1.6,
+      folga: 0.5,
     },
     canto: {
       x: 3,
       y: 3,
-      z: 10
+      z: 14
     },
     clip: {
       y: 5,
@@ -35,7 +35,7 @@ common = (function() {
     },
     tampa: {
       z: 2,
-      folga: 0.5,
+      folga: 0.4,
       r: 16/2,
       snap: {
         r: 1,
@@ -46,19 +46,30 @@ common = (function() {
         z: 5,
         x: 5,
         barra: 5,
+        bloco: 5
       }
     },
      base: {
        y: 50,
-       x: 80,
+       x: 90,
        z: 3,
        parede_grossa: 2,
        parede_fina: 2,
-       folga: 0.5,
+       folga: 0,
        raio_parafuso_grande: 6/2,
        suporte: {
          z: 50
        },
+     },
+     rj45: {
+       x: 19,
+       y: 23.5,
+       espaco_cabos: 20,
+       distancia: 2,
+       buraco: {
+         x: 15,
+         y: 20.5
+       }
      }
   }
 
@@ -67,6 +78,9 @@ common = (function() {
   dim.base.suporte.y = dim.slit.z
   dim.base.inicio_ranhura = dim.y/2 - 10
   dim.base.x = dim.base.folga + dim.x + dim.slit.x*2 + 6*dim.base.parede_grossa + dim.base.raio_parafuso_grande * 2
+  dim.parede_caixa = (dim.y-dim.placa.y-dim.placa.folga)/2
+  dim.x = dim.parede_caixa * 3 + dim.rj45.x + dim.placa.x + dim.placa.folga
+
 
 
 return {dim}
