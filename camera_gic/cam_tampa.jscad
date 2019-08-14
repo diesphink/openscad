@@ -4,7 +4,7 @@ tampa = (function() {
   "use strict"
 
   var dim = common.dim
-  dim.tampa.folga = 0.5
+  dim.tampa.folga = 0.2
 
   function tampa() {
     var base_maior = cube({
@@ -25,13 +25,13 @@ tampa = (function() {
     var lid2 = lid1.translate([0, -(dim.placa.y + dim.placa.folga) + dim.tampa.lid.bloco + 2*dim.tampa.folga, 0])
 
     var lid3 = cube({
-      size: [dim.rj45.x - dim.tampa.folga, dim.tampa.lid.bloco, 5],
+      size: [dim.rj45.x - dim.tampa.folga, dim.tampa.lid.bloco, dim.tampa.z + 3],
       center: [0, 0, 0],
       radius: [1, 1, 1],
     }).translate([dim.x - dim.rj45.x - dim.tampa.folga/2 - dim.parede_caixa, -(dim.placa.y + dim.placa.folga)/2 + dim.rj45.distancia, 0])
 
     var lid4 = cube({
-      size: [dim.rj45.x - dim.tampa.folga, dim.tampa.lid.bloco, dim.tampa.lid.z + dim.tampa.z],
+      size: [dim.rj45.x - dim.tampa.folga, dim.tampa.lid.bloco, dim.tampa.z + 3],
       center: [0, 0, 0],
       radius: [1, 1, 1],
     }).translate([dim.x - dim.rj45.x - dim.tampa.folga/2 - dim.parede_caixa, (dim.placa.y + dim.placa.folga)/2 - dim.canto.y - dim.tampa.lid.bloco, 0])
@@ -70,7 +70,7 @@ tampa = (function() {
       .union(lid1)
       .union(lid2)
       .union(lid3)
-      .union(lid4)
+      // .union(lid4)
       // .union(c)
       .union(snap1)
       .union(snap2)
