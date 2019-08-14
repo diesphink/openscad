@@ -5,6 +5,16 @@ caixa = (function() {
 
   var dim = common.dim
 
+  // dim.x = dim.x + 5
+  // console.log(dim.x)
+  // dim.z = dim.z + 5
+  // dim.canto.z = dim.canto.z + 5
+  // dim.slit.interno.z_pos += 5
+  // // dim.slit.interno.z += 5
+
+  // dim.canto.x = 5
+  // dim.canto.y = 5
+
   function repos(objParaMover, objReferencia) {
     var atual = objParaMover.getBounds()[0];
     var ref = objReferencia.getBounds()[0]
@@ -12,6 +22,7 @@ caixa = (function() {
   }
 
   function caixa() {
+
     var externo = cube({
       size: [dim.x, dim.y, dim.z + 5],
       radius: 3,
@@ -29,13 +40,22 @@ caixa = (function() {
     }).translate([(-dim.x/2) + dim.parede_caixa, 0, 2])
     // interno = repos(interno, externo).translate([dim.parede_caixa, dim.parede_caixa, 0])
 
-    var canto = cube({size: [dim.canto.x, dim.canto.y, dim.canto.z], center: [1,1,0]})
-    // canto = canto.union(cylinder({r: 0.8, h: 1.2, center: [true, true, false]}).translate([0, 0, dim.canto.z]))
 
-    var cantoSW = repos(canto, interno)
-    var cantoSE = cantoSW.translate([dim.placa.x + dim.placa.folga - dim.canto.x, 0, 0])
-    var cantoNW = cantoSW.translate([0, dim.placa.y + dim.placa.folga - dim.canto.y, 0])
-    var cantoNE = cantoSE.translate([0, dim.placa.y + dim.placa.folga - dim.canto.y, 0])
+    var cantog = cube({size: [dim.canto_grande.x, dim.canto_grande.y, dim.canto.z], center: [1,1,0]})
+    cantog = cantog.subtract(cylinder({r: dim.canto_grande.raio_parafuso, h: dim.canto_grande.z_parafuso, center: [true, true, false]}).translate([0, 0, dim.canto.z - 7]))
+
+    var cantoSW = repos(cantog, interno)
+    var cantoSE = cantoSW.translate([dim.placa.x + dim.placa.folga - dim.canto_grande.x, 0, 0])
+
+    var cantop = cube({size: [dim.canto.x, dim.canto.y, dim.canto.z], center: [1,1,0]})
+    cantop = repos(cantop, interno)
+    var cantoNW = cantop.translate([0, dim.placa.y + dim.placa.folga - dim.canto.y, 0])
+    var cantoNE = cantoNW.translate([dim.placa.x + dim.placa.folga - dim.canto.x, 0, 0])
+
+    // canto = cube({size: [dim.canto.x, dim.canto.y, dim.canto.z], center: [1,1,0]})
+    // canto = repos(canto, interno)
+
+
 
     var slit = cube({
       size: [dim.slit.x * 2, dim.slit.y, dim.slit.z + 5],
@@ -76,9 +96,9 @@ caixa = (function() {
 
       // RJ45
       var rj45 = cube({
-        size: [dim.rj45.x, dim.rj45.y, dim.z],
+        size: [dim.rj45.x + 20, dim.rj45.y, dim.z],
         center: [1,0,0]
-      }).translate([dim.x/2 - dim.rj45.x/2 - dim.parede_caixa, (dim.placa.y + dim.placa.folga)/2 - dim.rj45.y - dim.rj45.distancia, 2])
+      }).translate([dim.x/2 - dim.rj45.x/2 - dim.parede_caixa-10, (dim.placa.y + dim.placa.folga)/2 - dim.rj45.y - dim.rj45.distancia, 2])
 
       var espaco_cabos = cube({
         size: [dim.rj45.x * 2, dim.rj45.espaco_cabos, dim.z],
@@ -103,7 +123,7 @@ caixa = (function() {
       .subtract(snap1)
       .subtract(snap2)
       .subtract(rj45)
-      .subtract(espaco_cabos)
+      // .subtract(espaco_cabos)
       .subtract(rj45_buraco)
       .subtract(espaco_cabo_cam)
 
@@ -111,15 +131,17 @@ caixa = (function() {
 
   }
 
-  function caixa_top() {
-    return caixa_cam.caixa().intersect(cube({
-      size: [70, 70, 70],
+  function sliceZ({from, to, h}) {
+    if (!h)
+      h = to - from
+    return caixa().intersect(cube({
+      size: [70, 70, h],
       center: [1,1,0],
-    }).translate([0, 0, 15])).translate([0, 0, -14])
+    }).translate([0, 0, from])).translate([0, 0, -from])
   }
 
 
-  return {dim, caixa, caixa_top}
+  return {dim, caixa, sliceZ}
 })()
 
 function main_rj45() {
@@ -145,6 +167,7 @@ function main_cx() {
 
 function main() {
   return caixa.caixa()
+  // return caixa.sliceZ({from: 20, h: 2})
   // return main_rj45()
   // return main_cx()
 }

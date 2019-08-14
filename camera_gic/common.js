@@ -17,6 +17,12 @@ common = (function() {
       y: 3,
       z: 14
     },
+    canto_grande: {
+      x: 5,
+      y: 5,
+      raio_parafuso: 1,
+      z_parafuso: 7
+    },
     clip: {
       y: 5,
       z: 5,
@@ -81,6 +87,12 @@ common = (function() {
   dim.parede_caixa = (dim.y-dim.placa.y-dim.placa.folga)/2
   dim.x = dim.parede_caixa * 3 + dim.rj45.x + dim.placa.x + dim.placa.folga
 
+  dim.x = dim.x + 5
+  console.log(dim.x)
+  dim.z = dim.z + 5
+  dim.canto.z = dim.canto.z + 5
+  dim.slit.interno.z_pos += 5
+  // dim.slit.interno.z += 5
 
 
 return {dim}
