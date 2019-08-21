@@ -111,8 +111,22 @@ base = (function() {
 
   }
 
+  function clone(model, x, y, gap) {
+    var ret = model;
 
-  return {base, full}
+    for (var i = 1; i < x; i++)
+      ret = ret.union(model.translate([ret.getBounds()[1].x - ret.getBounds()[0].x + gap, 0, 0]))
+
+    model = ret
+
+    for (var i = 1; i < y; i++)
+      ret = ret.union(model.translate([0, ret.getBounds()[1].y - ret.getBounds()[0].y + gap, 0]))
+
+    return ret;
+  }
+
+
+  return {base, clone, full}
 })()
 
 function sliceZ({model, from, to, h}) {
@@ -128,6 +142,6 @@ function sliceZ({model, from, to, h}) {
 
 main = function() {
   // console.log("main",   common.dim.x)
-  // return base.base();
-  return sliceZ({model: base.base(), from: 0, h: 3})
+  return base.clone(base.base(), 1, 3, 2)
+  // return sliceZ({model: base.base(), from: 0, h: 3})
 }
