@@ -1,4 +1,5 @@
 include('common.js')
+include('logo_gic.jscad')
 
 caixa = (function() {
   "use strict"
@@ -110,6 +111,10 @@ caixa = (function() {
         center: [1,0,0]
       }).translate([dim.x/2 - dim.rj45.x/2 - dim.parede_caixa, (dim.placa.y + dim.placa.folga)/2 - dim.rj45.buraco.y - dim.rj45.distancia, 0])
 
+console.log(logo_gic)
+
+      var logo = logo_gic.logo().setColor([1,0,0]).mirroredY().scale([0.4, 0.4, 1]).translate([-10, 0, 0])
+
 
     return externo
       .subtract(interno)
@@ -126,6 +131,7 @@ caixa = (function() {
       // .subtract(espaco_cabos)
       .subtract(rj45_buraco)
       .subtract(espaco_cabo_cam)
+      .subtract(logo)
 
       // .union(rj45)
 
@@ -140,8 +146,21 @@ caixa = (function() {
     }).translate([0, 0, from])).translate([0, 0, -from])
   }
 
+  function clone(model, x, y, gap) {
+    var ret = model;
 
-  return {dim, caixa, sliceZ}
+    for (var i = 1; i < x; i++)
+      ret = ret.union(model.translate([ret.getBounds()[1].x - ret.getBounds()[0].x + gap, 0, 0]))
+
+    model = ret
+
+    for (var i = 1; i < y; i++)
+      ret = ret.union(model.translate([0, ret.getBounds()[1].y - ret.getBounds()[0].y + gap, 0]))
+
+    return ret;
+  }
+
+  return {dim, caixa, sliceZ, clone}
 })()
 
 function main_rj45() {
@@ -162,11 +181,12 @@ function main_cx() {
       center: [1, 1, 0],
     }).translate([-10, 0, dim.canto.z + 1.4])
 )
+
+
 }
 
-
-function main() {
-  return caixa.caixa()
+main = function() {
+  return caixa.clone(caixa.caixa(), 2, 2, 3)
   // return caixa.sliceZ({from: 20, h: 2})
   // return main_rj45()
   // return main_cx()
