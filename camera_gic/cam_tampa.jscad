@@ -77,11 +77,26 @@ tampa = (function() {
       .subtract(cc)
   }
 
+  function clone(model, x, y, gap) {
+    var ret = model;
+
+    for (var i = 1; i < x; i++)
+      ret = ret.union(model.translate([ret.getBounds()[1].x - ret.getBounds()[0].x + gap, 0, 0]))
+
+    model = ret
+
+    for (var i = 1; i < y; i++)
+      ret = ret.union(model.translate([0, ret.getBounds()[1].y - ret.getBounds()[0].y + gap, 0]))
+
+    return ret;
+  }
 
 
-  return {tampa}
+  return {tampa, clone}
 })()
 
+
+
 main = function() {
-  return tampa.tampa();
+  return tampa.clone(tampa.tampa(), 1, 3, 2);
 }
