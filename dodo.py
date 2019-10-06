@@ -17,7 +17,7 @@ DOIT_CONFIG = {'verbosity': 1, 'reporter':'executed-only', 'default_tasks': ['sc
 OPENSCAD = 'openscad'
 OPENJSCAD = 'openjscad'
 
-SLIC3R = '/home/sphink/opt/slic3r/slic3r'
+SLIC3R = '/home/sphink/opt/slic3r/bin/prusa-slicer'
 SLIC3R_PROFILE_FOLDER = './slic3r_profiles'
 SLIC3R_DEFAULT_PROFILES = ['pla', 'normal']
 
@@ -206,7 +206,7 @@ def task_stl_to_gcode():
                 'actions': [
                     (create_folder, [pathgcode]),
                     (set_env, [slic3r_properties]),
-                    [SLIC3R, stl, '--print-center', '125,105', '--post-process', './post_process.py', '--output', gcode] + profiles_args],
+                    [SLIC3R, stl, '--center', '125,105', '-g', '--post-process', './post_process.py', '--output', gcode] + profiles_args],
                 'file_dep': [stl] + profiles,
                 'targets': [gcode]
             }
