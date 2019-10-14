@@ -82,7 +82,13 @@ def dependencies_for_jscad(jscad):
 
 def slic3r_properties_for_stl(stl):
     path = os.path.dirname(stl)
+
+
     while path != '':
+    # Procura um especifico para aquele stl
+        file = os.path.join(path, os.path.splitext(os.path.basename(stl))[0] + '.slic3r.properties')
+        if os.path.exists(file):
+            return file
         file = os.path.join(path, 'slic3r.properties')
         if os.path.exists(file):
             return file
