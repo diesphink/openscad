@@ -108,6 +108,8 @@ def set_env(properties):
 
 def profile_files(profiles):
     files = profile_file_if_exists('default')
+    if 'chiquinha' in profiles:
+        files = []
     for profile in profiles:
         files += profile_file_if_exists(profile)
         for sub_profile in profiles:
@@ -200,13 +202,17 @@ def task_stl_to_gcode():
             for profile in profiles:
                 profiles_args += ['--load', profile]
 
+            common_args = []
+            # if not 'chiquinha' in profiles:
+            common_args += ['--center', '125,55']
+
             yield {
                 'name': gcode,
                 'title': title,
                 'actions': [
                     (create_folder, [pathgcode]),
                     (set_env, [slic3r_properties]),
-                    [SLIC3R, stl, '--center', '125,105', '-g', '--post-process', './post_process.py', '--output', gcode] + profiles_args],
+                    [SLIC3R, stl, '-g', '--post-process', './post_process.py', '--output', gcode] + common_args + profiles_args],
                 'file_dep': [stl] + profiles,
                 'targets': [gcode]
             }
