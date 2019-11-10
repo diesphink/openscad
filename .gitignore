@@ -12,3 +12,5 @@ things/
 dodo\.pyc
 
 *.original
+
+__pycache__/
