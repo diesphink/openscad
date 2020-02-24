@@ -24,9 +24,9 @@ SLIC3R_DEFAULT_PROFILES = ['pla', 'normal']
 OCTOPI_SERVER = 'pi@octopi.local'
 OCTOPI_UPLOAD_FOLDER = '.octoprint/uploads/'
 
-TAG_STL = Style.BRIGHT + Back.BLUE + Fore.CYAN + "  STL    " + Style.RESET_ALL
-TAG_GCODE = Style.BRIGHT + Back.GREEN + Fore.GREEN + "  GCODE  " + Style.RESET_ALL
-TAG_RSYNC = Style.BRIGHT + Back.MAGENTA + Fore.MAGENTA + "  RSYNC  " + Style.RESET_ALL
+TAG_STL = Style.BRIGHT + Back.BLUE + Fore.WHITE + "  STL    " + Style.RESET_ALL
+TAG_GCODE = Style.BRIGHT + Back.GREEN + Fore.WHITE + "  GCODE  " + Style.RESET_ALL
+TAG_RSYNC = Style.BRIGHT + Back.MAGENTA + Fore.WHITE + "  RSYNC  " + Style.RESET_ALL
 
 TAG_STL_PLAIN =   "[ STL   ]"
 TAG_GCODE_PLAIN = "[ GCODE ]"
