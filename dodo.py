@@ -21,7 +21,7 @@ SLIC3R = '/home/sphink/opt/slicer/bin/prusa-slicer'
 SLIC3R_PROFILE_FOLDER = './slic3r_profiles'
 SLIC3R_DEFAULT_PROFILES = ['pla', 'normal']
 
-OCTOPI_SERVER = 'pi@192.168.0.6'
+OCTOPI_SERVER = 'pi@octopi.local'
 OCTOPI_UPLOAD_FOLDER = '.octoprint/uploads/'
 
 TAG_STL = Style.BRIGHT + Back.BLUE + Fore.CYAN + "  STL    " + Style.RESET_ALL
