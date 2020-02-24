@@ -210,7 +210,7 @@ def task_stl_to_gcode():
 
             common_args = []
             # if not 'chiquinha' in profiles:
-            common_args += ['--center', '125,55']
+            common_args += ['--center', '125,105']
 
             yield {
                 'name': gcode,
