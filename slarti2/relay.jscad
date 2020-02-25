@@ -50,29 +50,20 @@ relay = (function() {
       gaps: [dim.espaco_buraco, dim.espaco_buraco, 0]
     }))
 
-    var burac1o = align({
-      obj: cube({size: dim.buraco }),
-      ref: suporte,
-      begin: [1, 1, 1],
-      gaps: dim.posicao_buraco
-    })
-
-    function buraco(base) {
-      return buraco = align({
+    suporte.properties.buraco = align({
         obj: cube({size: dim.buraco }),
-        ref: base,
+        ref: suporte,
         begin: [1, 1, 1],
         gaps: dim.posicao_buraco
       })
-    }
 
 
-    return {base: suporte.subtract(buracos_parafusos), buraco}
+    return suporte.subtract(buracos_parafusos)
   }
 
   return relay
 })()
 
 main = function() {
-  return relay().base
+  return relay()
 }

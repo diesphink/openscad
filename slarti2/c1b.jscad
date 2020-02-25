@@ -112,17 +112,13 @@ c1 = (function() {
     })
     wago2 = align({obj: wago2, ref: m3_suporte, endToBegin: [1, 0, 0], gaps: [2, 0, 0]})
 
-    var r = relay();
     var rly = align({
-      obj: r.base,
+      obj: relay(),
       ref: c1,
       end: [0, 1, 0],
       begin: [1, 0, 1],
       gaps: [dim.walls[x], dim.walls[y], dim.walls[z]]
     })
-
-    var rly_buraco = r.buraco(rly)
-
 
     var cb = conector_branco(2)
 
@@ -165,7 +161,7 @@ c1 = (function() {
       .subtract(m3_buraco)
       .subtract(c110v)
       .subtract(cb_buraco)
-      .subtract(rly_buraco)
+      .subtract(rly.properties.buraco)
       .subtract(tomada_buraco)
   }
 
