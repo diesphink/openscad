@@ -1,11 +1,11 @@
 include('common.js')
 include('align.js')
-include('wago-3er-solo.jscad')
-include('m3.jscad')
-include('conector110v.jscad')
+include('wago-3er-solo.js')
+include('m3.js')
+include('conector110v.js')
 include('caixa.js')
 include('conector_branco.js')
-include('relay.jscad')
+include('relay.js')
 
 c1 = (function() {
   "use strict"
@@ -13,7 +13,7 @@ c1 = (function() {
   const x = 0
   const y = 1
   const z = 2
-
+ 
   function c1() {
 
     var dim = common.dim

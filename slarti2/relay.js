@@ -1,6 +1,6 @@
 include('common.js')
 include('align.js')
-include('m3.jscad')
+include('m3.js')
 include('caixa.js')
 
 relay = (function() {

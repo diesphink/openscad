@@ -1,5 +1,5 @@
 include('align.js')
-include('m3.jscad')
+include('m3.js')
 
 caixa = (function() {
 
