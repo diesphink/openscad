@@ -1,45 +1,36 @@
 include('common.js')
+include('align.js')
 
 m3 = (function() {
   "use strict"
 
-  const x = 0
-  const y = 1
-  const z = 2
+  function m3({r = 1.5, z = 8, cabeca = {r: 3, h: 3}, protecao = {r: 4, h: 3}} = {}) {
+    var m3 = cylinder({r, h: z}).setColor([0.4, 0.1, 0.1, 0.5])
 
-  var dim = common.dim
-  dim.m3 = 1.5
-  dim.m3_espaco = 3
-  dim.m3_suporte = 4
-  dim.m3_z = 5
+    m3.properties.cabeca = align({
+      obj: cylinder(cabeca),
+      ref: m3,
+      center: [1, 1, 0],
+      beginToEnd: [0, 0, 1]
+    }).setColor([0.4, 0.1, 0.1, 0.5])
 
-  function m3s({espacamento = dim.perfil_espacamento} = {}) {
-    var m3_buraco = cylinder({
-      r: dim.m3,
-      h: dim.m3_z * 2,
-      center: [1, 1, 1]
+    var p = cylinder({r: protecao.r, h: protecao.h, center: [1, 1, 0]})
+      .subtract(cylinder({r: cabeca.r, h: protecao.h, center: [1, 1, 0]}))
+
+    m3.properties.protecao = align({
+      obj: p,
+      ref: m3,
+      center: [1, 1, 0],
+      beginToEnd: [0, 0, 1]
     })
 
-    m3_buraco = m3_buraco.union(m3_buraco.translate([0, espacamento, 0]))
-
-    var m3_suporte = cylinder({
-      r: dim.m3_suporte,
-      h: dim.m3_z,
-      center: [1, 1, 0]
-    }).subtract(cylinder({
-      r: dim.m3_espaco,
-      h: dim.m3_z,
-      center: [1, 1, 0]
-    }))
-
-    m3_suporte = m3_suporte.union(m3_suporte.translate([0, espacamento, 0]))
-
-    return {suporte: m3_suporte, buraco: m3_buraco}
+    return m3
   }
 
-  return m3s
+  return m3
 })()
 
 main = function() {
-  return m3().suporte
+  var m = m3()
+  return m.union(m.properties.protecao)
 }

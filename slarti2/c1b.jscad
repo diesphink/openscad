@@ -76,22 +76,13 @@ c1 = (function() {
       gaps: [0, -dim.walls[y], 0]
     })
 
-    var m3s = m3()
-
-    var m3_suporte = align({
-      obj: m3s.suporte,
+    var m1 = align({
+      obj: m3(),
       ref: c1,
+      endToBegin:[0, 0, 1],
       center: [1, 1, 0],
-      gaps: [0, 0, dim.walls[z]]
-    })
-    m3_suporte = align({obj: m3_suporte, ref: elevado_tomada, endToBegin: [1, 0, 0], gaps: [2, 0, 0]})
-
-    var m3_buraco = align({
-      obj: m3s.buraco,
-      ref: m3_suporte,
-      center: [1, 1, 0],
-      gaps: [0, 0, dim.walls[z]]
-    })
+      gaps: [0, dim.perfil_espacamento/2, -dim.walls[z]-0.01]})
+    var m2 = m1.translate([0, -dim.perfil_espacamento, 0])
 
     var wago1 = align({
       obj: wago3er().rotateZ(90),
@@ -100,7 +91,6 @@ c1 = (function() {
       begin:[0, 1, 1],
       gaps: [0, 0, dim.walls[z] - 4]
     })
-    wago1 = align({obj: wago1, ref: m3_suporte, endToBegin: [1, 0, 0], gaps: [2, 0, 0]})
 
     var wago2 = align({
       obj: wago3er().rotateZ(270),
@@ -110,7 +100,6 @@ c1 = (function() {
       end:[0, 1, 0],
       gaps: [0, 0, dim.walls[z] - 4]
     })
-    wago2 = align({obj: wago2, ref: m3_suporte, endToBegin: [1, 0, 0], gaps: [2, 0, 0]})
 
     var rly = align({
       obj: relay(),
@@ -126,7 +115,7 @@ c1 = (function() {
       begin: [0, 0, 1],
       end: [0, 1, 0],
       beginToEnd: [1, 0, 0],
-      gaps: [1, 0, 0]
+      gaps: [4, 0, 0]
     })
 
     var c110v = align({
@@ -145,11 +134,13 @@ c1 = (function() {
       .subtract(tomada_inferior)
       .union(wago1)
       .union(wago2)
-      .union(m3_suporte)
+      .subtract(m1)
+      .subtract(m2)
+      .union(m1.properties.protecao)
+      .union(m2.properties.protecao)
       .union(cb)
       .union(base.suporteY)
       .union(rly)
-      .subtract(m3_buraco)
       .subtract(c110v)
       .subtract(cb.properties.buraco)
       .subtract(rly.properties.buraco)
