@@ -12,14 +12,14 @@ relay = (function() {
 
   var dim = common.dim
   dim.placa = [26, 33.7, 8]
-  dim.buraco = [8, 10, 3]
+  dim.buraco = [10, 10, 5]
   dim.posicao_buraco = [5, 33.7, 3 + dim.placa[z]]
   dim.espaco_buraco = 1.9
 
   function relay() {
     var suporte = caixa({
       size: [dim.placa[x] + 2, dim.placa[y] + 2, dim.placa[z]],
-      walls: [5, 0, 0],
+      walls: [6, 0, 0],
       center: [1, 1, 0]
     }).caixa
 
@@ -55,7 +55,7 @@ relay = (function() {
         ref: suporte,
         begin: [1, 1, 1],
         gaps: dim.posicao_buraco
-      })
+      }).setColor([0.4, 0.1, 0.1, 0.5])
 
 
     return suporte.subtract(buracos_parafusos)
@@ -65,5 +65,6 @@ relay = (function() {
 })()
 
 main = function() {
-  return relay()
+  var r = relay()
+  return r.union(r.properties.buraco)
 }
