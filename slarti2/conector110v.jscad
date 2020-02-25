@@ -20,7 +20,7 @@ conector110v = (function() {
       center: [1, 1, 0]
     }).setColor([0.4, 0.1, 0.1, 0.5])
 
-    var m3s = m3().rotateZ(90).rotateX(90)
+    var m3s = m3({h: dim.c110v[y]}).rotateZ(90).rotateX(90)
     var m3s = m3s.union(m3s.translate([dim.c110v_espacamento, 0, 0]))
 
     m3s = align({
