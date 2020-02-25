@@ -120,22 +120,13 @@ c1 = (function() {
       gaps: [dim.walls[x], dim.walls[y], dim.walls[z]]
     })
 
-    var cb = conector_branco(2)
-
-    var cb_base = align({
-      obj: cb.base,
+    var cb = align({
+      obj: conector_branco(),
       ref: rly,
       begin: [0, 0, 1],
       end: [0, 1, 0],
       beginToEnd: [1, 0, 0],
-      gaps: [1, -dim.walls[y], 0]
-    })
-
-    var cb_buraco = align({
-      obj: cb.buraco,
-      ref: cb_base,
-      begin: [1, 0, 1],
-      end: [0, 1, 0],
+      gaps: [1, 0, 0]
     })
 
     var c110v = align({
@@ -155,12 +146,12 @@ c1 = (function() {
       .union(wago1)
       .union(wago2)
       .union(m3_suporte)
-      .union(cb_base)
+      .union(cb)
       .union(base.suporteY)
       .union(rly)
       .subtract(m3_buraco)
       .subtract(c110v)
-      .subtract(cb_buraco)
+      .subtract(cb.properties.buraco)
       .subtract(rly.properties.buraco)
       .subtract(tomada_buraco)
   }
