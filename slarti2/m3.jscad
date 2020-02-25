@@ -4,8 +4,8 @@ include('align.js')
 m3 = (function() {
   "use strict"
 
-  function m3({r = 1.5, z = 8, cabeca = {r: 3, h: 3}, protecao = {r: 4, h: 3}} = {}) {
-    var m3 = cylinder({r, h: z}).setColor([0.4, 0.1, 0.1, 0.5])
+  function m3({r = 1.5, h = 8, cabeca = {r: 3, h: 3}, protecao = {r: 4, h: 3}} = {}) {
+    var m3 = cylinder({r, h}).setColor([0.4, 0.1, 0.1, 0.5])
 
     m3.properties.cabeca = align({
       obj: cylinder(cabeca),
@@ -23,6 +23,8 @@ m3 = (function() {
       center: [1, 1, 0],
       beginToEnd: [0, 0, 1]
     })
+
+    m3.properties.dim = {cabeca, protecao, r, h}
 
     return m3
   }

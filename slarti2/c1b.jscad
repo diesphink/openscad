@@ -19,7 +19,7 @@ c1 = (function() {
     var dim = common.dim
 
     dim.caixa = [130, 70, 30]
-    dim.walls = [2, 2, 5]
+    dim.walls = [2, 2, 6]
 
     dim.tomada = {
       superior: [43.5, 19, 24],
@@ -126,6 +126,12 @@ c1 = (function() {
       gaps: [dim.walls[x], 0, dim.walls[z]]
     }).translate(dim.c110v_offset)
 
+    var trilho = align({
+      obj: cube({size: [dim.caixa[x], 40, 4]}),
+      ref: c1,
+      center: [1, 1, 0],
+      begin: [0, 0, 1]
+    })
 
 
     return c1
@@ -145,6 +151,7 @@ c1 = (function() {
       .subtract(cb.properties.buraco)
       .subtract(rly.properties.buraco)
       .subtract(tomada_buraco)
+      .subtract(trilho)
   }
 
   return c1

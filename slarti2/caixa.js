@@ -1,26 +1,14 @@
 include('align.js')
+include('m3.jscad')
 
 caixa = (function() {
 
   var dim = {}
 
   dim.suporte = {
-    raio: 8,
+    raio: 6,
     altura: 10,
     altura_superior: 3
-  }
-  dim.porca = {
-    r: 3,
-    h: 2,
-    fn: 6
-  }
-  dim.parafuso = {
-    r: 1.5,
-    h: 20,
-    cabeca: {
-      r: 3,
-      h: 3
-    }
   }
 
   function caixa({size, walls, radius = [0, 0, 0], center = [0, 0, 0]} = {}) {
@@ -95,28 +83,21 @@ caixa = (function() {
 
     var suporte = p1.union(p2).intersect(half)
 
-    var porca = align({
-      obj: cylinder(dim.porca),
-      ref: suporte,
-      center: [1, 1, 0]
-    })
-
     var parafuso = align({
-      obj: cylinder(dim.parafuso),
-      ref: suporte,
-      center: [1, 1, 0]
-    })
-
-    var parafuso_cabeca = align({
-      obj: cylinder(dim.parafuso.cabeca),
+      obj: m3({h: 7}),
       ref: suporte,
       center: [1, 1, 0],
-      end: [0, 0, 1]
+      begin: [0, 0, 1]
     })
 
-
-    return suporte.subtract(porca).subtract(parafuso).subtract(parafuso_cabeca).rotateY(180).translate([0, 0, dim.suporte.altura])
+    return suporte.subtract(parafuso).subtract(parafuso.properties.cabeca).rotateY(180).translate([0, 0, dim.suporte.altura])
   }
 
-  return caixa;
+  return caixa
 })()
+
+main = function() {
+
+  var c = caixa({size: [60, 60, 30], walls: [2, 2, 2], center: [1, 1, 0]})
+  return c.caixa.union(c.suporteX)
+}
