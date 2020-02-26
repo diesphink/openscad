@@ -40,7 +40,9 @@ c1 = (function() {
       walls: dim.walls,
       center: [1, 1, 0],
       radius: [1, 1, 0],
-      suporte: [1, 0, 0]
+      suporte: [1, 0, 0],
+      tampa_z: 5,
+      tampa_walls: [3.5, 3.5, 2]
     }).setColor([0.8, 0.8, 0.9])
 
     var elevado_tomada = align({
@@ -130,7 +132,6 @@ c1 = (function() {
       center: [1, 1, 0],
       begin: [0, 0, 1]
     })
-
 
     return c1
       .union(c1.properties.suporteY)
