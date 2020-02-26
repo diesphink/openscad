@@ -13,7 +13,7 @@ c1 = (function() {
   const x = 0
   const y = 1
   const z = 2
- 
+
   function c1() {
 
     var dim = common.dim
@@ -35,15 +35,13 @@ c1 = (function() {
       dim.caixa[z]]
     dim.c110v_offset = [2, 0, 0]
 
-    var base = caixa({
+    var c1 = caixa({
       size: dim.caixa,
       walls: dim.walls,
       center: [1, 1, 0],
       radius: [1, 1, 0],
       suporte: [1, 0, 0]
-    })
-
-    var c1 = base.caixa.setColor([0.8, 0.8, 0.9])
+    }).setColor([0.8, 0.8, 0.9])
 
     var elevado_tomada = align({
       obj: cube({size: dim.elevado_tomada}),
@@ -135,9 +133,11 @@ c1 = (function() {
 
 
     return c1
+      .union(c1.properties.suporteY)
       .union(elevado_tomada)
       .subtract(tomada_superior)
       .subtract(tomada_inferior)
+      .subtract(tomada_buraco)
       .union(wago1)
       .union(wago2)
       .subtract(m1)
@@ -145,12 +145,10 @@ c1 = (function() {
       .union(m1.properties.protecao)
       .union(m2.properties.protecao)
       .union(cb)
-      .union(base.suporteY)
-      .union(rly)
-      .subtract(c110v)
       .subtract(cb.properties.buraco)
+      .union(rly)
       .subtract(rly.properties.buraco)
-      .subtract(tomada_buraco)
+      .subtract(c110v)
       .subtract(trilho)
   }
 

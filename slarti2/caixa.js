@@ -31,37 +31,39 @@ caixa = (function() {
     if (center[2] == 1)
       inner = inner.translate([0, 0, size[2]/2])
 
+    var caixa = outer.subtract(inner)
+
     var suporte = suporte_m3()
 
-    var suporteX = align({
+    caixa.properties.suporteX = align({
       obj: suporte.rotateZ(90),
-      ref: outer,
+      ref: caixa,
       center: [0, 1, 0],
       endToBegin:[1, 0, 0],
       end: [0, 0, 1]
     }).union(align({
       obj: suporte.rotateZ(270),
-      ref: outer,
+      ref: caixa,
       center: [0, 1, 0],
       beginToEnd:[1, 0, 0],
       end: [0, 0, 1]
     }))
 
-    var suporteY = align({
+    caixa.properties.suporteY = align({
       obj: suporte.rotateZ(180),
-      ref: outer,
+      ref: caixa,
       center: [1, 0, 0],
       endToBegin:[0, 1, 0],
       end: [0, 0, 1]
     }).union(align({
       obj: suporte.rotateZ(0),
-      ref: outer,
+      ref: caixa,
       center: [1, 0, 0],
       beginToEnd:[0, 1, 0],
       end: [0, 0, 1]
     }))
 
-    return {caixa: outer.subtract(inner), suporteX, suporteY}
+    return caixa
   }
 
   function suporte_m3() {
@@ -99,5 +101,5 @@ caixa = (function() {
 main = function() {
 
   var c = caixa({size: [60, 60, 30], walls: [2, 2, 2], center: [1, 1, 0]})
-  return c.caixa.union(c.suporteX)
+  return c.union(c.properties.suporteX)
 }

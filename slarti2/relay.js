@@ -21,7 +21,7 @@ relay = (function() {
       size: [dim.placa[x] + 2, dim.placa[y] + 2, dim.placa[z]],
       walls: [6, 0, 0],
       center: [1, 1, 0]
-    }).caixa
+    })
 
     var parafuso = cylinder({r: 1.5, h: dim.placa[z]})
 
