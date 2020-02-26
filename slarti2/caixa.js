@@ -5,13 +5,15 @@ caixa = (function() {
 
   var dim = {}
 
+  var x = 0; y = 1; z = 2
+
   dim.suporte = {
     raio: 6,
     altura: 10,
     altura_superior: 3
   }
 
-  function caixa({size, walls, radius = [0, 0, 0], center = [0, 0, 0]} = {}) {
+  function caixa({size, walls, radius = [0, 0, 0], center = [0, 0, 0], tampa_z = 2, tampa_walls = [0, 0, 2]} = {}) {
     var outer = cube({
       size: size,
       center: center,
@@ -63,6 +65,52 @@ caixa = (function() {
       end: [0, 0, 1]
     }))
 
+    var tampa = cube({
+      size: [size[x], size[y], tampa_z], radius, center
+    })
+    if (tampa_z != tampa_walls[z])
+      tampa = tampa.subtract(cube({
+        size: [size[x] - 2 * tampa_walls[x], size[y] - 2 * tampa_walls[y], tampa_z - tampa_walls[z]],
+        center: [1, 1, 0]
+      }).translate([0, 0, tampa_walls[z]]))
+
+    caixa.properties.tampaX = align({
+      obj: tampa,
+      ref: caixa,
+      center: [1, 1, 0],
+      beginToEnd: [0, 0, 1]
+    }).union(align({
+      obj: suporte_m3_tampa(tampa_z).rotateZ(270),
+      ref: caixa,
+      center: [0, 1, 0],
+      beginToEnd:[1, 0, 1]
+    })).union(align({
+      obj: suporte_m3_tampa(tampa_z).rotateZ(90),
+      ref: caixa,
+      center: [0, 1, 0],
+      beginToEnd:[0, 0, 1],
+      endToBegin: [1, 0, 0]
+    }))
+
+    caixa.properties.tampaY = align({
+      obj: tampa,
+      ref: caixa,
+      center: [1, 1, 0],
+      beginToEnd: [0, 0, 1]
+    }).union(align({
+      obj: suporte_m3_tampa(tampa_z),
+      ref: caixa,
+      center: [1, 0, 0],
+      beginToEnd:[0, 1, 1]
+    })).union(align({
+      obj: suporte_m3_tampa(tampa_z).rotateZ(180),
+      ref: caixa,
+      center: [1, 0, 0],
+      beginToEnd:[0, 0, 1],
+      endToBegin: [0, 1, 0]
+    }))
+
+
     return caixa
   }
 
@@ -95,11 +143,31 @@ caixa = (function() {
     return suporte.subtract(parafuso).subtract(parafuso.properties.cabeca).rotateY(180).translate([0, 0, dim.suporte.altura])
   }
 
+  function suporte_m3_tampa(tampa_z) {
+    var suporte = cylinder({
+      r: dim.suporte.raio,
+      h: tampa_z,
+      center: [1, 1, 0]})
+    .intersect(cube({
+      size: [20, 20, 20],
+      center: [1, 0, 0]}))
+
+    var parafuso = align({
+      obj: cylinder({r: 1.7, h: tampa_z}),
+      ref: suporte,
+      center: [1, 1, 0],
+      begin: [0, 0, 1]
+    })
+
+    return suporte.subtract(parafuso)
+  }
+
   return caixa
 })()
 
 main = function() {
 
-  var c = caixa({size: [60, 60, 30], walls: [2, 2, 2], center: [1, 1, 0]})
-  return c.union(c.properties.suporteX)
+  var c = caixa({size: [60, 60, 30], walls: [2, 2, 2], center: [1, 1, 0], tampa_z: 5, tampa_walls: [3, 3, 2]})
+  return c.union(c.properties.suporteX).union(c.properties.tampaX.translate([0, 0, 10]))
+  // return c.properties.tampaY
 }
