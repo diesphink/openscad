@@ -13,7 +13,7 @@ caixa = (function() {
     altura_superior: 3
   }
 
-  function caixa({size, walls, radius = [0, 0, 0], center = [0, 0, 0], tampa_z = 2, tampa_walls = [0, 0, 2]} = {}) {
+  function caixa({size, walls, radius = [0, 0, 0], center = [1, 1, 0], tampa_z = 2, tampa_walls = [0, 0, 2]} = {}) {
     var outer = cube({
       size: size,
       center: center,
@@ -74,17 +74,20 @@ caixa = (function() {
         center: [1, 1, 0]
       }).translate([0, 0, tampa_walls[z]]))
 
-    caixa.properties.tampaX = align({
+
+    tampa = align({
       obj: tampa,
       ref: caixa,
       center: [1, 1, 0],
       beginToEnd: [0, 0, 1]
-    }).union(align({
+    })
+
+    tampa.properties.suporteX = align({
       obj: suporte_m3_tampa(tampa_z).rotateZ(270),
       ref: caixa,
       center: [0, 1, 0],
       beginToEnd:[1, 0, 1]
-    })).union(align({
+    }).union(align({
       obj: suporte_m3_tampa(tampa_z).rotateZ(90),
       ref: caixa,
       center: [0, 1, 0],
@@ -92,23 +95,24 @@ caixa = (function() {
       endToBegin: [1, 0, 0]
     }))
 
-    caixa.properties.tampaY = align({
-      obj: tampa,
-      ref: caixa,
-      center: [1, 1, 0],
-      beginToEnd: [0, 0, 1]
-    }).union(align({
+    tampa.properties.suporteY = align({
       obj: suporte_m3_tampa(tampa_z),
       ref: caixa,
       center: [1, 0, 0],
       beginToEnd:[0, 1, 1]
-    })).union(align({
+    }).union(align({
       obj: suporte_m3_tampa(tampa_z).rotateZ(180),
       ref: caixa,
       center: [1, 0, 0],
       beginToEnd:[0, 0, 1],
       endToBegin: [0, 1, 0]
     }))
+
+
+    caixa.properties.tampa = tampa
+    caixa.properties.tampaX = tampa.union(tampa.properties.suporteX)
+    caixa.properties.tampaY = tampa.union(tampa.properties.suporteY)
+
 
 
     return caixa

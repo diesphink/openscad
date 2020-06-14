@@ -27,11 +27,12 @@ conector_branco = (function() {
     })
 
     base.properties.buraco = align({
-      obj: cube({size: dim.conector}),
+      obj: cube({size: [dim.conector[x], dim.conector[y]*2, dim.conector[z]]}),
       ref: base,
+      begin: [0, 1, 0],
       center: [1, 0, 0],
-      beginToEnd: [0, 1, 1]
-    }).setColor([0.4, 0.1, 0.1, 0.5])
+      beginToEnd: [0, 0, 1],
+    }).setColor([0.4, 0.1, 0.1])
 
     return base.subtract(buraco_parafuso)
   }
