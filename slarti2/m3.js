@@ -1,5 +1,5 @@
 include('common.js')
-include('align.js')
+include('../libs/align.js')
 
 m3 = (function() {
   "use strict"

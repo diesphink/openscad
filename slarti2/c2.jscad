@@ -1,7 +1,7 @@
 include('common.js')
 include('caixa.js')
 include('conector_branco.js')
-include('align.js')
+include('../libs/align.js')
 include('wago-3er-solo.js')
 // include('m3.js')
 // include('conector110v.js')

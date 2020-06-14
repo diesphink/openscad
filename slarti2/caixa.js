@@ -1,4 +1,4 @@
-include('align.js')
+include('../libs/align.js')
 include('m3.js')
 
 caixa = (function() {

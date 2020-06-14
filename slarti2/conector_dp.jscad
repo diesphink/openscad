@@ -1,5 +1,5 @@
 include('common.js')
-include('align.js')
+include('../libs/align.js')
 include('caixa.js')
 
 conector_dp = (function() {

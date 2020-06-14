@@ -1,5 +1,5 @@
 include('common.js')
-include('align.js')
+include('../libs/align.js')
 include('m3.js')
 
 conector110v = (function() {

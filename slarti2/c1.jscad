@@ -1,5 +1,5 @@
 include('common.js')
-include('align.js')
+include('../libs/align.js')
 include('wago-3er-solo.js')
 include('m3.js')
 include('conector110v.js')
@@ -19,7 +19,7 @@ c1 = (function() {
     var dim = common.dim
 
     dim.caixa = [130, 70, 30]
-    dim.walls = [2, 2, 6]
+    dim.walls = [2, 2, 6] 
 
     dim.tomada = {
       superior: [43.5, 19, 24],
