@@ -1,5 +1,5 @@
-include('align.js')
-include('split.js')
+include('../libs/align.js')
+include('../libs/split.js')
 
 base_hub = (function() {
   "use strict"

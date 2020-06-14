@@ -1,4 +1,4 @@
-include('align.js')
+include('../libs/align.js')
 
 function split({obj, at, axis}) {
   ob = obj.getBounds()
