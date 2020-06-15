@@ -1,4 +1,5 @@
 include('common.js')
+include('../libs/distribute.js')
 
 caixa = (function() {
   "use strict"
@@ -32,10 +33,10 @@ caixa = (function() {
       for (var c = 0; c < cols; c++) {
         fila.push(cube({size:[tam_x, tam_y, z]}));
       }
-      fila = union(common.distributeX(fila, dim.x, dim.wall));
+      fila = union(distributeX({objs: fila, range: [0, dim.x], outer_gap: dim.wall}));
       filas.push(fila);
     }
-    filas = translate([0, 0, dim.bottom], common.distributeY(filas, dim.y, dim.wall));
+    filas = translate([0, 0, dim.bottom], distributeY({objs: filas, range: [0, dim.y], outer_gap: dim.wall}));
 
     var tampa_lid = cube({size: [dim.lid.x, dim.lid.y, dim.lid.z]})
     .setColor([0.4, 0.4, 0.7])

@@ -1,12 +1,15 @@
 include('common.js')
 include('base_spacer_tiles.js')
 include('base_spacer_caixa.js')
+include('../libs/distribute.js')
 
-function distributeX(objects) {
-  return common.distributeX(objects, dim.x, dim.gap);
+function distributX(objects) {
+  // return common.distributeX(objects, dim.x, dim.gap)
+  return distributeX({objs: objects, range: [0, dim.x], outer_gap: dim.gap});
 }
-function distributeY(objects) {
-  return common.distributeY(objects, dim.y, (dim.y/5-common.dim.tiles.y)/2);
+function distributY(objects) {
+  // return common.distributeY(objects, dim.y, (dim.y/5-common.dim.tiles.y)/2);
+  return distributeY({objs: objects, range: [0, dim.y], outer_gap: (dim.y/5-common.dim.tiles.y)/2});
 }
 
 var dim = common.dim.base // Para o que me é relevante, só ligo para as dimensões da base
@@ -42,11 +45,11 @@ main = function() {
   filas[0] = [minas, construtores]
 
   for (var i = 0; i < filas.length; i++) {
-    filas[i] = union(distributeY([union(distributeX(filas[i]))])).translate([0, 0, dim.bottom])
+    filas[i] = union(distributY([union(distributX(filas[i]))])).translate([0, 0, dim.bottom])
     filas[i] = fila.subtract(filas[i])
   }
 
-  // return union(distributeY(filas))
+  // return union(distributY(filas))
   return filas[2]
 }
 
