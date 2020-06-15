@@ -25,7 +25,7 @@ Parâmetros
           respectivamente)
   at:     Posição no eixo onde será feito o recorte, pode ser um valor direto
           (e.g. 3.7), uma matriz de valores (e.g. [3.7, 5, 6.8]). Se não for
-          informado, usará a metade dos extremos do objeto informado.
+          informado, usará a metade dos extremos do objeto informado
 
 Retorno
   matriz com cada um dos pedaços do objeto recortado
@@ -45,7 +45,7 @@ Funções extras
 
 */
 
-const {split, splitX, splitY, splitZ} = (function() {
+split = (function() {
   "use strict"
 
   function split({obj, axis, at = null}) {
@@ -76,17 +76,20 @@ const {split, splitX, splitY, splitZ} = (function() {
 
   }
 
-  function splitX({obj, at = null}) {
-    return split({obj, at, axis: 0})
-  }
+  return split
+})()
 
-  function splitY({obj, at = null}) {
-    return split({obj, at, axis: 1})
-  }
+splitX = (function() {
+  function splitX({obj, at = null}) {return split({obj, at, axis: 0})}
+  return splitX
+})()
 
-  function splitZ({obj, at = null}) {
-    return split({obj, at, axis: 2})
-  }
+splitY = (function() {
+  function splitY({obj, at = null}) {return split({obj, at, axis: 1})}
+  return splitY
+})()
 
-  return {split, splitX, splitY, splitZ};
+splitZ = (function() {
+  function splitZ({obj, at = null}) {return split({obj, at, axis: 2})}
+  return splitZ
 })()
