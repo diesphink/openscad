@@ -25,37 +25,14 @@ relay = (function() {
 
     var parafuso = cylinder({r: 1.5, h: dim.placa[z]})
 
-    var buracos_parafusos = align({
-      obj: parafuso,
-      ref: suporte,
-      begin: [1, 1, 1],
-      gaps: [dim.espaco_buraco, dim.espaco_buraco, 0]
-    }).union(align({
-      obj: parafuso,
-      ref: suporte,
-      begin: [1, 0, 1],
-      end: [0, 1, 0],
-      gaps: [dim.espaco_buraco, dim.espaco_buraco, 0]
-    })).union(align({
-      obj: parafuso,
-      ref: suporte,
-      begin: [0, 1, 1],
-      end: [1, 0, 0],
-      gaps: [dim.espaco_buraco, dim.espaco_buraco, 0]
-    })).union(align({
-      obj: parafuso,
-      ref: suporte,
-      begin: [0, 0, 1],
-      end: [1, 1, 0],
-      gaps: [dim.espaco_buraco, dim.espaco_buraco, 0]
-    }))
+    var buracos_parafusos = parafuso.align(suporte, { begin: [1, 1, 1], gaps: [dim.espaco_buraco, dim.espaco_buraco, 0]})
+    .union(parafuso.align(suporte, { begin: [1, 0, 1], end: [0, 1, 0], gaps: [dim.espaco_buraco, dim.espaco_buraco, 0]}))
+    .union(parafuso.align(suporte, { begin: [0, 1, 1], end: [1, 0, 0], gaps: [dim.espaco_buraco, dim.espaco_buraco, 0]}))
+    .union(parafuso.align(suporte, { begin: [0, 0, 1], end: [1, 1, 0], gaps: [dim.espaco_buraco, dim.espaco_buraco, 0]}))
 
-    suporte.properties.buraco = align({
-        obj: cube({size: dim.buraco }),
-        ref: suporte,
-        begin: [1, 1, 1],
-        gaps: dim.posicao_buraco
-      }).setColor([0.4, 0.1, 0.1, 0.5])
+    suporte.properties.buraco = cube({size: dim.buraco })
+    .align(suporte, { begin: [1, 1, 1], gaps: dim.posicao_buraco})
+    .setColor([0.4, 0.1, 0.1, 0.5])
 
 
     return suporte.subtract(buracos_parafusos)

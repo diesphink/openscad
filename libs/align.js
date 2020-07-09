@@ -89,7 +89,7 @@ align = (function() {
     var cRef = [(rb[0].x + rb[1].x) / 2, (rb[0].y + rb[1].y) / 2, (rb[0].z + rb[1].z) / 2]
     var cObj = [(ob[0].x + ob[1].x) / 2, (ob[0].y + ob[1].y) / 2, (ob[0].z + ob[1].z) / 2]
     var eRef = [rb[1].x, rb[1].y, rb[1].z]
-    var eObj = [ob[1].x, ob[1].y, ob[1].z] 
+    var eObj = [ob[1].x, ob[1].y, ob[1].z]
     var deltas = [0, 0, 0]
 
     for (var i = 0; i <= 2; i++) {
@@ -122,5 +122,27 @@ align = (function() {
     return obj.translate(deltas)
   }
 
-  return align;
+  function init() {
+    if (CSG.align) return;
+    CSG.prototype.align = function(ref,
+      {
+        gaps = [0, 0, 0],
+        begin = [0, 0, 0],
+        center = [0, 0, 0],
+        end = [0, 0, 0],
+        beginToCenter = [0, 0, 0],
+        beginToEnd = [0, 0, 0],
+        centerToBegin = [0, 0, 0],
+        centerToEnd = [0, 0, 0],
+        endToBegin = [0, 0, 0],
+        endToCenter = [0, 0, 0]
+      } = {}) {
+        return align({
+          obj: this,
+          ref, gaps, begin, center, end, beginToCenter, beginToEnd, centerToBegin, centerToEnd, endToBegin, endToCenter
+        })
+      }
+    }
+
+  return {align, init};
 })()

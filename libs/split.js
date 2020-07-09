@@ -63,11 +63,7 @@ split = (function() {
     } else
       cube_size[axis] = at
 
-    var splitter = align({
-      obj: cube({size: cube_size}),
-      ref: obj,
-      begin: [1, 1, 1]
-    })
+    var splitter = cube({size: cube_size}).align(obj, {begin: [1, 1, 1]})
 
     if (Array.isArray(at) && at.length >= 1) {
       return split({obj: obj.intersect(splitter), axis, at}).concat([obj.subtract(splitter)])

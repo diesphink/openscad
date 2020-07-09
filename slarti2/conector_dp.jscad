@@ -38,50 +38,39 @@ conector_dp = (function() {
 
     var ref = cube({size: dim.conector})
 
-    var suporte1 = align({
-      obj: cube({size: dim.suporte1}),
-      ref: ref,
+    var suporte1 = cube({size: dim.suporte1}).align(ref, {
       center: [0, 1, 0],
       end: [1, 0, 0],
       gaps: dim.suporte1_offset
     })
 
-    var suporte2 = align({
-      obj: cube({size: dim.suporte2}),
-      ref: ref,
+    var suporte2 = cube({size: dim.suporte2}).align(ref, {
       center: [0, 1, 0],
       beginToEnd: [1, 0, 0]
     })
 
-    var suporte_abas = align({
-      obj: caixa({
-        size: [dim.suporte_abas[x], dim.suporte_abas[y] * 2 + dim.conector[y], dim.suporte_abas[z]],
-        walls: [0, dim.suporte_abas[y], 0]
-      }),
-      ref: suporte1,
+    var suporte_abas = caixa({
+      size: [dim.suporte_abas[x], dim.suporte_abas[y] * 2 + dim.conector[y], dim.suporte_abas[z]],
+      walls: [0, dim.suporte_abas[y], 0]
+    }).align(suporte1, {
       begin: [0, 0, 1],
       center: [0, 1, 0],
       end: [1, 0, 0],
     })
 
-    var suporte_frontal = align({
-      obj: cube({size: [dim.suporte_frontal[x], dim.suporte_frontal[y] * 2 + dim.buraco[y], dim.suporte_frontal[z]]}),
-      ref: ref,
+    var suporte_frontal = cube({size: [dim.suporte_frontal[x], dim.suporte_frontal[y] * 2 + dim.buraco[y], dim.suporte_frontal[z]]})
+    .align(ref, {
       begin: [1, 0, 1],
       center: [0, 1, 0],
     })
 
-    var buraco = align({
-      obj: cube({size: dim.buraco}),
-      ref: ref,
+    var buraco = cube({size: dim.buraco}).align(ref, {
       begin: [0, 0, 1],
       center: [0, 1, 0],
       endToBegin: [1, 0, 0],
       gaps: dim.buraco_offset
     })
-    var buraco = buraco.union(align({
-      obj: cube({size: dim.buraco_pino}),
-      ref: buraco,
+    var buraco = buraco.union(cube({size: dim.buraco_pino}).align(buraco, {
       center: [1, 1, 0],
       beginToEnd: [0, 0, 1],
       gaps:[0, 0, 0.2]
@@ -98,15 +87,16 @@ conector_dp = (function() {
 })()
 
 main = function() {
+
+  align.init()
+
   var caixa_simples = caixa({
     size: [16, 16, 15],
     walls: [0.5, 1, 1],
     center: [0, 1, 0]
   }).rotateZ(180)
 
-  var c = align({
-    obj: conector_dp(3),
-    ref: caixa_simples,
+  var c = conector_dp(3).align(caixa_simples, {
     begin: [1, 0, 1],
     center: [0, 1, 0],
     gaps: [1, 0, 1]

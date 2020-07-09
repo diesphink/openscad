@@ -18,21 +18,20 @@ conector_branco = (function() {
 
     var base = cube({size: dim.base})
 
-    var buraco_parafuso = align({
-      obj: cylinder(dim.parafuso),
-      ref: base,
+    var buraco_parafuso = cylinder(dim.parafuso)
+    .align(base, {
       center: [1, 0, 0],
       end: [0, 1, 1],
       gaps: [0, 1, 0]
     })
 
-    base.properties.buraco = align({
-      obj: cube({size: [dim.conector[x], dim.conector[y]*2, dim.conector[z]]}),
-      ref: base,
+    base.properties.buraco = cube({size: [dim.conector[x], dim.conector[y]*2, dim.conector[z]]})
+    .align(base, {
       begin: [0, 1, 0],
       center: [1, 0, 0],
       beginToEnd: [0, 0, 1],
-    }).setColor([0.4, 0.1, 0.1])
+    })
+    .setColor([0.4, 0.1, 0.1])
 
     return base.subtract(buraco_parafuso)
   }

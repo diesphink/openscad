@@ -31,45 +31,39 @@ base_hub = (function() {
   function base_hub() {
     var ohub = hub()
 
-    var menor = align({
-      obj: cube({size: [dim_menor[x], dim_menor[y], dim_menor[z] + paredes]}),
-      ref: ohub,
+    var menor = cube({size: [dim_menor[x], dim_menor[y], dim_menor[z] + paredes]})
+    .align(ohub, {
       begin: [1, 1, 1],
       gaps: [-paredes, -paredes, 0]
     }).subtract(ohub)
 
-    var maior = align({
-      obj: cube({size: [dim_maior[x], dim_maior[y] + paredes, dim_maior[z] + paredes]}),
-      ref: ohub,
+    var maior = cube({size: [dim_maior[x], dim_maior[y] + paredes, dim_maior[z] + paredes]})
+    .align(ohub, {
       end: [1, 0, 0],
       begin: [0, 1, 1],
       gaps: [-paredes, -paredes, 0]
     }).subtract(ohub)
 
-    var ligacao = align({
-      obj: cube({size: dim_ligacao}),
-      ref: ohub,
+    var ligacao = cube({size: dim_ligacao})
+    .align(ohub, {
       begin: [1, 1, 1],
       gaps: [0, -paredes, 0]
     })
 
-    var s1 = align({
-      obj: suporte_parafuso().scale([-1, 1, 1]),
-      ref: menor,
+    var s1 = suporte_parafuso().scale([-1, 1, 1])
+    .align(menor, {
       endToBegin: [1, 0, 0],
       begin: [0, 1, 1]
     })
 
-    var s2 = align({
-      obj: suporte_parafuso(),
-      ref: maior,
+    var s2 = suporte_parafuso()
+    .align(maior, {
       beginToEnd: [1, 0, 0],
       begin: [0, 1, 1]
     })
 
-    var s3 = align({
-      obj: suporte_parafuso(),
-      ref: maior,
+    var s3 = suporte_parafuso()
+    .align(maior, {
       beginToEnd: [1, 0, 0],
       begin: [0, 0, 1],
       end: [0, 1, 0]
@@ -88,6 +82,8 @@ base_hub = (function() {
 })()
 
 main = function() {
+
+  align.init()
 
   return base_hub.base_hub();
 

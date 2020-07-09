@@ -19,7 +19,7 @@ c1 = (function() {
     var dim = common.dim
 
     dim.caixa = [130, 70, 30]
-    dim.walls = [2, 2, 6] 
+    dim.walls = [2, 2, 6]
 
     dim.tomada = {
       superior: [43.5, 19, 24],
@@ -45,90 +45,76 @@ c1 = (function() {
       tampa_walls: [3.5, 3.5, 2]
     }).setColor([0.8, 0.8, 0.9])
 
-    var elevado_tomada = align({
-      obj: cube({size: dim.elevado_tomada}),
-      ref: c1,
+    var elevado_tomada = cube({size: dim.elevado_tomada})
+    .align(c1, {
       center: [0, 1, 0],
       end: [1, 1, 0],
       begin: [0, 0, 1],
       gaps: [dim.walls[x], dim.walls[y], 0]})
 
-    var tomada_superior = align({
-      obj: cube({size: dim.tomada.superior}),
-      ref: elevado_tomada,
-      center: [1, 0, 0],
-      end: [0, 1, 1]
-    })
+    var tomada_superior = cube({size: dim.tomada.superior})
+    .align(elevado_tomada, {center: [1, 0, 0], end: [0, 1, 1]})
 
-    var tomada_inferior = align({
-      obj: cube({size: dim.tomada.inferior}),
-      ref: elevado_tomada,
+    var tomada_inferior = cube({size: dim.tomada.inferior})
+    .align(elevado_tomada, {
       center: [1, 0, 0],
       end: [0, 0, 1],
       begin: [0, y, 1]
     })
 
-    var tomada_buraco = align({
-      obj: cube({size: dim.tomada.buraco}),
-      ref: elevado_tomada,
+    var tomada_buraco = cube({size: dim.tomada.buraco})
+    .align(elevado_tomada, {
       center: [1, 0, 0],
       end: [0, 1, 1],
       gaps: [0, -dim.walls[y], 0]
     })
 
-    var m1 = align({
-      obj: m3(),
-      ref: c1,
+    var m1 = m3()
+    .align(c1, {
       endToBegin:[0, 0, 1],
       center: [1, 1, 0],
       gaps: [0, dim.perfil_espacamento/2, -dim.walls[z]-0.01]})
     var m2 = m1.translate([0, -dim.perfil_espacamento, 0])
 
-    var wago1 = align({
-      obj: wago3er().rotateZ(90),
-      ref: c1,
+    var wago1 = wago3er().rotateZ(90)
+    .align(c1, {
       center: [1, 0, 0],
       begin:[0, 1, 1],
       gaps: [0, 0, dim.walls[z] - 4]
     })
 
-    var wago2 = align({
-      obj: wago3er().rotateZ(270),
-      ref: c1,
+    var wago2 = wago3er().rotateZ(270)
+    .align(c1, {
       center: [1, 0, 0],
       begin:[0, 0, 1],
       end:[0, 1, 0],
       gaps: [0, 0, dim.walls[z] - 4]
     })
 
-    var rly = align({
-      obj: relay(),
-      ref: c1,
+    var rly = relay()
+    .align(c1, {
       end: [0, 1, 0],
       begin: [1, 0, 1],
       gaps: [dim.walls[x], dim.walls[y], dim.walls[z]]
     })
 
-    var cb = align({
-      obj: conector_branco(),
-      ref: rly,
+    var cb = conector_branco()
+    .align(rly, {
       begin: [0, 0, 1],
       end: [0, 1, 0],
       beginToEnd: [1, 0, 0],
       gaps: [4, 0, 0]
     })
 
-    var c110v = align({
-      obj: conector110v(),
-      ref: c1,
+    var c110v = conector110v()
+    .align(c1, {
       center: [0, 0, 0],
       begin: [1, 1, 1],
       gaps: [dim.walls[x], 0, dim.walls[z]]
     }).translate(dim.c110v_offset)
 
-    var trilho = align({
-      obj: cube({size: [dim.caixa[x], 40, 4]}),
-      ref: c1,
+    var trilho = cube({size: [dim.caixa[x], 40, 4]})
+    .align(c1, {
       center: [1, 1, 0],
       begin: [0, 0, 1]
     })
@@ -157,5 +143,6 @@ c1 = (function() {
 })()
 
 main = function() {
+  align.init()
   return c1()
 }

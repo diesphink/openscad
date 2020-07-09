@@ -7,11 +7,8 @@ function split({obj, at, axis}) {
     cube_size[axis] = cube_size[axis]/2
   else
     cube_size[axis] = at
-  splitter = align({
-    obj: cube({size: cube_size}),
-    ref: obj,
-    begin: [1, 1, 1]
-  })
+  splitter = cube({size: cube_size})
+  .align(obj, {begin: [1, 1, 1]})
 
   return [obj.intersect(splitter), obj.subtract(splitter), splitter]
 
@@ -25,12 +22,10 @@ base_monitor = (function() {
 
   function forma_base(dimensoes) {
     var base = cube({size: dimensoes})
-    base = base.union(align({
-      obj: cylinder({r: (dimensoes[x])/2, h: dimensoes[z], fn: 50}),
-      ref: base,
-      center: [1, 0, 0],
-      centerToBegin: [0, 1, 0]
-    }))
+    base = base.union(
+      cylinder({r: (dimensoes[x])/2, h: dimensoes[z], fn: 50})
+      .align(base, {center: [1, 0, 0], centerToBegin: [0, 1, 0]})
+    )
 
     return base
   }
@@ -42,18 +37,18 @@ base_monitor = (function() {
 
     var externo = forma_base([dim[x] + paredes * 2, dim[y], dim[z] + sobra_z])
 
-    return externo.subtract(align({
-      obj: forma_base([dim[x], dim[y], sobra_z]).setColor([0.1, 0.7, 0.2]),
-      ref: externo,
-      center: [1, 0, 0],
-      end: [0, 1, 1]
-    }))
+    return externo.subtract(
+        forma_base([dim[x], dim[y], sobra_z]).setColor([0.1, 0.7, 0.2])
+        .align(externo, {center: [1, 0, 0], end: [0, 1, 1]})
+    )
   }
 
   return base_monitor
 })()
 
 main = function() {
+  align.init()
+  
   return base_monitor()
   // return split({
   //   obj: split({axis: 2, at: 30, obj: base_monitor()})[1],

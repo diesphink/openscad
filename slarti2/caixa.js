@@ -37,29 +37,21 @@ caixa = (function() {
 
     var suporte = suporte_m3()
 
-    caixa.properties.suporteX = align({
-      obj: suporte.rotateZ(90),
-      ref: caixa,
+    caixa.properties.suporteX = suporte.rotateZ(90).align(caixa, {
       center: [0, 1, 0],
       endToBegin:[1, 0, 0],
       end: [0, 0, 1]
-    }).union(align({
-      obj: suporte.rotateZ(270),
-      ref: caixa,
+    }).union(suporte.rotateZ(270).align(caixa, {
       center: [0, 1, 0],
       beginToEnd:[1, 0, 0],
       end: [0, 0, 1]
     }))
 
-    caixa.properties.suporteY = align({
-      obj: suporte.rotateZ(180),
-      ref: caixa,
+    caixa.properties.suporteY = suporte.rotateZ(180).align(caixa, {
       center: [1, 0, 0],
       endToBegin:[0, 1, 0],
       end: [0, 0, 1]
-    }).union(align({
-      obj: suporte.rotateZ(0),
-      ref: caixa,
+    }).union(suporte.rotateZ(0).align(caixa, {
       center: [1, 0, 0],
       beginToEnd:[0, 1, 0],
       end: [0, 0, 1]
@@ -75,34 +67,21 @@ caixa = (function() {
       }).translate([0, 0, tampa_walls[z]]))
 
 
-    tampa = align({
-      obj: tampa,
-      ref: caixa,
-      center: [1, 1, 0],
-      beginToEnd: [0, 0, 1]
-    })
+    tampa = tampa.align(caixa, { center: [1, 1, 0], beginToEnd: [0, 0, 1] })
 
-    tampa.properties.suporteX = align({
-      obj: suporte_m3_tampa(tampa_z).rotateZ(270),
-      ref: caixa,
+    tampa.properties.suporteX = suporte_m3_tampa(tampa_z).rotateZ(270).align(caixa, {
       center: [0, 1, 0],
       beginToEnd:[1, 0, 1]
-    }).union(align({
-      obj: suporte_m3_tampa(tampa_z).rotateZ(90),
-      ref: caixa,
+    }).union(suporte_m3_tampa(tampa_z).rotateZ(90).align(caixa, {
       center: [0, 1, 0],
       beginToEnd:[0, 0, 1],
       endToBegin: [1, 0, 0]
     }))
 
-    tampa.properties.suporteY = align({
-      obj: suporte_m3_tampa(tampa_z),
-      ref: caixa,
+    tampa.properties.suporteY = suporte_m3_tampa(tampa_z).align(caixa, {
       center: [1, 0, 0],
       beginToEnd:[0, 1, 1]
-    }).union(align({
-      obj: suporte_m3_tampa(tampa_z).rotateZ(180),
-      ref: caixa,
+    }).union(suporte_m3_tampa(tampa_z).rotateZ(180).align(caixa, {
       center: [1, 0, 0],
       beginToEnd:[0, 0, 1],
       endToBegin: [0, 1, 0]
@@ -137,9 +116,7 @@ caixa = (function() {
 
     var suporte = p1.union(p2).intersect(half)
 
-    var parafuso = align({
-      obj: m3({h: 7}),
-      ref: suporte,
+    var parafuso = m3({h: 7}).align(suporte, {
       center: [1, 1, 0],
       begin: [0, 0, 1]
     })
@@ -156,9 +133,7 @@ caixa = (function() {
       size: [20, 20, 20],
       center: [1, 0, 0]}))
 
-    var parafuso = align({
-      obj: cylinder({r: 1.7, h: tampa_z}),
-      ref: suporte,
+    var parafuso = cylinder({r: 1.7, h: tampa_z}).align(suporte, {
       center: [1, 1, 0],
       begin: [0, 0, 1]
     })
