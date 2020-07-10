@@ -72,7 +72,27 @@ split = (function() {
 
   }
 
-  return split
+  function init() {
+    if (CSG.align) return;
+    CSG.prototype.split = function({axis, at = null}) {
+        return split({ obj: this, axis, at})
+    }
+
+    CSG.prototype.splitX = function(at) {
+        return split({ obj: this, axis: 0, at})
+    }
+
+    CSG.prototype.splitY = function(at) {
+        return split({ obj: this, axis: 1, at})
+    }
+
+    CSG.prototype.splitZ = function(at) {
+        return split({ obj: this, axis: 2, at})
+    }
+
+  }
+
+  return {split, init}
 })()
 
 splitX = (function() {

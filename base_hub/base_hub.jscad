@@ -24,7 +24,7 @@ base_hub = (function() {
     var suporte_parafuso = cylinder({r: 1, h: 1, center: [true, true, false]}).scale([dim_suporte[x], dim_suporte[y]/2, dim_suporte[z]])
     var buraco_parafuso = cylinder({r: 1.5, h: 5, center: [false, true, false]}).translate([(dim_suporte[x]-3)/2, 0, 0])
 
-    return split({axis: x, obj: suporte_parafuso.subtract(buraco_parafuso)})[1]//.subtract(cube({size: [12, 6, 6], center: [true, false, true]}))
+    return suporte_parafuso.subtract(buraco_parafuso).splitX()[1]
 
   }
 
@@ -84,16 +84,7 @@ base_hub = (function() {
 main = function() {
 
   align.init()
+  split.init()
 
   return base_hub.base_hub();
-
-  // return split({
-  //   obj: split({
-  //     obj: base_hub.base_hub(),
-  //     axis: 2,
-  //     at: 3
-  //   })[0],
-  //   axis: 2,
-  //   at: 1
-  // })[1]
 }
