@@ -94,7 +94,7 @@ align = (function() {
 
     for (var i = 0; i <= 2; i++) {
       var from = null
-      var to = null
+      var to = null 
       if (begin[i] || beginToCenter[i] || beginToEnd[i])
         from = bObj[i]
       if (centerToBegin[i] || center[i] || centerToEnd[i])

@@ -129,7 +129,7 @@ distribute = (function() {
 
       var acc = ranges[0][BEGIN];
       if (typeof outer_gap == 'number')
-        acc += outer_gap;
+        acc += outer_gap; 
       else if (outer_gap)
         acc += space_between;
       for (var i = 0; i < objs.length; i++) {
