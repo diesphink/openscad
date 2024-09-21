@@ -8,6 +8,9 @@
     "nodejs_22@latest",
     "prusa-slicer@latest"
   ],
+  "env": {
+    "PATH":"$PATH:$PWD/node_modules/.bin/"
+  },
   "shell": {
     "init_hook": [
       "echo 'Welcome to devbox!' > /dev/null"
