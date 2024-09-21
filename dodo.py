@@ -17,7 +17,7 @@ DOIT_CONFIG = {'verbosity': 1, 'reporter':'executed-only', 'default_tasks': ['sc
 OPENSCAD = 'openscad'
 OPENJSCAD = 'openjscad'
 
-SLIC3R = '/home/sphink/opt/slicer/bin/prusa-slicer'
+SLIC3R = 'prusa-slicer'
 SLIC3R_PROFILE_FOLDER = './slic3r_profiles'
 SLIC3R_DEFAULT_PROFILES = ['pla', 'normal']
 
@@ -156,7 +156,7 @@ def task_scad_to_stl():
     """Generate STLs"""
 
     for root, dirs, files in os.walk("."):
-        if root.endswith('lib'):
+        if root.endswith('lib') or "node_modules" in root:
             continue
         for scad in glob.glob(root + '/*.scad'):
             (pathstl, stl) = output_for_scad(scad)
@@ -176,7 +176,7 @@ def task_jscad_to_stl():
     """Generate STLs"""
 
     for root, dirs, files in os.walk("."):
-        if root.endswith('lib'):
+        if root.endswith('lib') or "node_modules" in root:
             continue
         for jscad in glob.glob(root + '/*.jscad'):
             (pathstl, stl) = output_for_jscad(jscad)
@@ -195,33 +195,34 @@ def task_stl_to_gcode():
     """Generate gcode"""
 
     for root, dirs, files in os.walk("."):
-        for stl in glob.glob(root + '/*.stl'):
-            (pathgcode, gcode) = output_for_stl(stl)
+        if "node_modules" in root:
+            for stl in glob.glob(root + '/*.stl'):
+                (pathgcode, gcode) = output_for_stl(stl)
 
-            slic3r_properties = slic3r_properties_for_stl(stl)
-            if slic3r_properties:
-                profiles = profile_files(profiles_from_properties(slic3r_properties)) + [slic3r_properties]
-            else:
-                profiles = profile_files(SLIC3R_DEFAULT_PROFILES)
+                slic3r_properties = slic3r_properties_for_stl(stl)
+                if slic3r_properties:
+                    profiles = profile_files(profiles_from_properties(slic3r_properties)) + [slic3r_properties]
+                else:
+                    profiles = profile_files(SLIC3R_DEFAULT_PROFILES)
 
-            profiles_args = []
-            for profile in profiles:
-                profiles_args += ['--load', profile]
+                profiles_args = []
+                for profile in profiles:
+                    profiles_args += ['--load', profile]
 
-            common_args = []
-            # if not 'chiquinha' in profiles:
-            common_args += ['--center', '125,105']
+                common_args = []
+                # if not 'chiquinha' in profiles:
+                common_args += ['--center', '125,105']
 
-            yield {
-                'name': gcode,
-                'title': title,
-                'actions': [
-                    (create_folder, [pathgcode]),
-                    (set_env, [slic3r_properties]),
-                    [SLIC3R, stl, '-g', '--post-process', './post_process.py', '--output', gcode] + common_args + profiles_args],
-                'file_dep': [stl] + profiles,
-                'targets': [gcode]
-            }
+                yield {
+                    'name': gcode,
+                    'title': title,
+                    'actions': [
+                        (create_folder, [pathgcode]),
+                        (set_env, [slic3r_properties]),
+                        [SLIC3R, stl, '-g', '--post-process', './post_process.py', '--output', gcode] + common_args + profiles_args],
+                    'file_dep': [stl] + profiles,
+                    'targets': [gcode]
+                }
 
 
 def task_deploy():

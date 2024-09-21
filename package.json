@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@jscad/openjscad": "^1.6.1"
+  }
+}
